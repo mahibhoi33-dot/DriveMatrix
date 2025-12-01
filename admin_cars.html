@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Panel - Manage Cars</title>
+
+<!-- Bootstrap & Icons -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<style>
+:root{ --glass: rgba(255,255,255,0.94); --accent1:#ff8a00; --accent2:#e52e71; }
+
+body{
+    background: #86b7fe;
+
+}
+@keyframes bgMove{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+/* Sidebar */
+.sidebar {
+    width: 240px; height: 100vh; position: fixed;
+    background: #212529; color: white; padding-top: 30px;
+}
+.sidebar h4 { text-align: center; margin-bottom: 25px; }
+.sidebar a {
+    display: block; padding: 12px 20px; color: #d9d9d9;
+    text-decoration: none; transition: .3s;
+}
+.sidebar a:hover, .sidebar a.active {
+    background: #343a40; color: #fff;
+}
+
+/* Main Panel */
+.main {
+    margin-left: 250px;
+    padding: 25px;
+}
+
+.card-glass{ background: var(--glass); border-radius:12px; padding:16px; box-shadow:0 10px 25px rgba(0,0,0,0.15); }
+
+.table img{ width:90px; height:56px; object-fit:cover; border-radius:6px; }
+
+.btn-add{ background: linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; border:none; }
+.btn-edit{ background:#1e88e5; color:white; border:none; }
+.btn-del{ background:#e53935; color:white; border:none; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+    <h4>Admin Panel</h4>
+    <a href="admindashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <a class="active" href="admin_cars.html"><i class="bi bi-car-front"></i> Manage Cars</a>
+    <a href="bookingform.html"><i class="bi bi-journal-bookmark"></i> Bookings</a>
+    <a href="customer.html"><i class="bi bi-people"></i> Users</a>
+    <a href="Reviewadmin.html"><i class="bi bi-chat-left-text"></i> Reviews</a>
+    <a href="Payment.html"><i class="bi bi-credit-card"></i> Payments</a>
+    <a href="notificationadmin.html"><i class="bi bi-bell"></i> Notifications</a>
+    <a href="settingsadmin.html"><i class="bi bi-gear"></i> Settings</a>
+    <a href="adminlogout.html"><i class="bi bi-box-arrow-right"></i> Logout</a>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="main">
+
+<div class="d-flex justify-content-between align-items-center mb-3 text-white">
+  <h3><i class="fa-solid fa-car-side me-2"></i>Manage Cars</h3>
+  <button class="btn btn-light" id="openAdd">+ Add New Car</button>
+</div>
+
+<div class="card-glass">
+
+  <!-- Search & Filters -->
+  <div class="row mb-3 g-2">
+    <div class="col-md-4">
+      <input id="searchInput" class="form-control" placeholder="Search by name / brand / reg no">
+    </div>
+    <div class="col-md-3">
+      <select id="filterType" class="form-select">
+        <option value="">All Types</option>
+        <option>Hatchback</option><option>SUV</option><option>Sedan</option><option>Luxury</option>
+      </select>
+    </div>
+    <div class="col-md-3">
+      <select id="filterAvail" class="form-select">
+        <option value="">Availability</option>
+        <option value="1">Available</option>
+        <option value="0">Not Available</option>
+      </select>
+    </div>
+    <div class="col-md-2 text-end">
+      <button id="reloadBtn" class="btn btn-outline-secondary">Reload</button>
+    </div>
+  </div>
+
+  <!-- Table -->
+  <div class="table-responsive">
+    <table class="table table-bordered align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>Image</th><th>Name</th><th>Brand</th><th>Type</th><th>Seats</th><th>Rent/Day</th><th>Available</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="carsBody"></tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<!-- ADD / EDIT MODAL -->
+<div class="modal fade" id="carModal" tabindex="-1">
+  <div class="modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <form id="carForm" novalidate>
+        <div class="modal-header">
+          <h5 class="modal-title" id="carModalTitle">Add Car</h5>
+          <button class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <input type="hidden" id="carId">
+          <div class="row g-2">
+            <div class="col-md-6">
+              <label>Car Name</label>
+              <input id="carName" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label>Brand</label>
+              <input id="carBrand" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+              <label>Type</label>
+              <select id="carType" class="form-select"><option>Hatchback</option><option>SUV</option><option>Sedan</option><option>Luxury</option></select>
+            </div>
+            <div class="col-md-4">
+              <label>Seats</label>
+              <input id="carSeats" type="number" class="form-control" required>
+            </div>
+            <div class="col-md-4">
+              <label>Price Per Day (₹)</label>
+              <input id="carPrice" type="number" class="form-control" required>
+            </div>
+            <div class="col-12">
+              <label>Registration No</label>
+              <input id="carReg" class="form-control">
+            </div>
+            <div class="col-md-6">
+              <label>Upload Image</label>
+              <input id="carImage" type="file" class="form-control">
+            </div>
+            <div class="col-md-6">
+              <label>Available</label>
+              <select id="carAvailable" class="form-select"><option value="1">Yes</option><option value="0">No</option></select>
+            </div>
+            <div class="col-12">
+              <label>Description</label>
+              <textarea id="carDesc" class="form-control" rows="3"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-add">Save Car</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+let demoCars = [
+  { id:1, name:"Swift", brand:"Maruti", type:"Hatchback", seats:5, price:1500, price_hour:100, reg: "GJ 07 AB 2345", image:"D:\\Images\\swift_2.jpeg", available:1, desc:"Comfortable hatchback" },
+  { id:2, name:"Creta", brand:"Hyundai", type:"SUV", seats:5, price:2200, price_hour:150, reg: "GJ 07 CR 5521", image:"D:\\Images\\hyundai-creta.avif", available:1, desc:"Spacious SUV" },
+  { id:3, name:"Innova", brand:"Toyota", type:"MUV", seats:7, price:3200, price_hour:150, reg: "GJ 01 IC 4410", image:"D:\\Images\\innova-hycross.webp", available:1, desc:"Spacious MUV" },
+   { id:4, name:"Baleno", brand:"Mruti", type:"Hatchback", seats:5, price:1400, price_hour:150, reg: "GJ 06 BN 7719", image:"D:\\Images\\Baleno.webp", available:1, desc:"Spacious SUV" },
+   { id:5, name:"Altroz", brand:"Tata", type:"SUV", seats:5, price:1350, price_hour:150,reg: "GJ 05 AL 9932", image:"D:\\Images\\Altroz_Pic.jpeg", available:1, desc:"Spacious SUV" },
+   { id:6, name:"Scorpio", brand:"Mahindra", type:"SUV", seats:7, price:8000, price_hour:150, reg: "GJ 05 GH 5566", image: "D:\\Images\\Mahindra-Scorpio.avif", available:1, desc:"Spacious SUV" },
+   { id:7, name:"Fortuner", brand:"Toyota", type:"SUV", seats:7, price:15000, price_hour:150, reg: "GJ 22 RT 3456", image: "D:\\Images\\Toyota_Fortuner.avif", available:1, desc:"Spacious SUV" },
+   { id:8, name:"Eco", brand:"Maruti", type:"VAN", seats:5, price:1800, price_hour:150, reg: "GJ 18 GW 9999", image: "D:\\Images\\Eeco.jpg", available:1, desc:"Spacious SUV" },
+   { id:9, name:"Ertiga", brand:"Maruti", type:"MPV", seats:7, price:2800, price_hour:150, reg: "GJ 10 VN 3344", image:"D:\\Images\\Ertiga.jpg", available:1, desc:"Spacious SUV" },
+   { id:10, name:"Vitara Brezza", brand:"Maruti", type:"SUV", seats:5, price:3000, price_hour:150, reg: "GJ 17 JM 4455", image: "D:\\Images\\Breenza.jpg", available:1, desc:"Spacious SUV" },
+   { id:11, name:"Bolero", brand:"Mahindra", type:"SUV", seats:7, price:2000, price_hour:150,reg: "GJ 07 SL 5577", image: "D:\\Images\\Bolero2.webp" },
+   { id:12, name:"Venue", brand:"Hynudai", type:"SUV", seats:5, price:3500, price_hour:150,reg: "GJ 04 AL 8976", image:"D:\\Images\\Hyundai_Venue.webp" },
+   { id:13, name:"Jimny", brand:"Suzuki", type:"SUV", seats:4, price:12000, price_hour:150,reg: "GJ 23 DZ 8877", image:"D:\\Images\\maruti_suzuki_jimny.jpg", available:1, desc:"Spacious SUV" },
+   { id:14, name:"Kia Seltos", brand:"Kia", type:"SUV", seats:5, price:5000, price_hour:150,reg: "GJ 11 WR 1122", image: "D:\\Images\\Kia-seltos.jpg", available:1, desc:"Spacious SUV" },
+   { id:15, name:"Alto(New)", brand:"Maruti", type:"Hatchback", seats:5, price:1500, price_hour:150,reg: "GJ 14 PN 3344", image: "D:\\Images\\Maruti-Suzuki-Alto.avif", available:1, desc:"Spacious SUV" },
+   { id:16, name:"Wagon R", brand:"Maruti", type:"Hatchback", seats:5, price:1800, price_hour:150,reg: "GJ 14 PN 3344", image: "D:\\Images\\wagonr-waltz.webp", available:1, desc:"Spacious SUV" },
+   { id:17, name:"Dzire", brand:"Maruti", type:"Sedan", seats:5, price:2000, price_hour:150,reg: "GJ 14 PN 3344", image: "D:\\Images\\Maruti_Dzire.jpg", available:1, desc:"Spacious SUV" },
+   { id:18, name:"Punch", brand:"Tata", type:"SUV", seats:5, price:3000, price_hour:150,reg: "GJ 14 PN 3344", image: "D:\\Images\\TataPunch.jpg", available:1, desc:"Spacious SUV" },
+   { id:19, name:"Thar", brand:"Mahindra", type:"SUV", seats:4, price:8000, price_hour:150,reg: "GJ 16 TR 9988", image: "D:\\Images\\Thar.jpg", available:1, desc:"Spacious SUV" },
+   { id:20, name:"Virtus", brand:"Volkswagen", type:"Sedan", seats:5, price:4500, price_hour:150,reg: "GJ 20 VT 2233", image: "D:\\Images\\virtus.webp", available:1, desc:"Spacious SUV" },
+   { id:21, name:"Marazzo", brand:"Mahindra", type:"MPV", seats:7, price:5500, price_hour:150,reg: "GJ 09 MZ 4455", image: "D:\\Images\\Marazzo-front-studio.jpg", available:1, desc:"Spacious SUV" },
+   { id:22, name:"Verna", brand:"Hyundai", type:"Sedan", seats:5, price:3000, price_hour:150,reg: "GJ 15 VN 6655", image: "D:\\Images\\Verna.jpg", available:1, desc:"Spacious SUV" },
+   { id:23, name:"Toyata MR2 Spyder(2000)", brand:"Toyota", type:"Sports", seats:2, price:8000, price_hour:150,reg: "GJ 01 SP 2000",  image: "D:\\Images\\2003-mr2-spyder-2-1599224809.avif", available:1, desc:"Spacious SUV" },
+   { id:24, name:"Crown Signia", brand:"Toyota", type:"Hybrid SUV", seats:5, price:1200, price_hour:150,reg: "GJ 01 SP 2000", image: "D:\\Images\\2025-Toyota-Crown-Signia.jpg", available:1, desc:"Spacious SUV" },
+   { id:25, name:"Tata Safari", brand:"Tata", type:"SUV", seats:7, price:7000, price_hour:150,reg: "GJ 02 SF 7654", image: "D:\\Images\\tata-safari.webp" , available:1, desc:"Spacious SUV" },
+   { id:26, name:"Range Rover", brand:"Land Rover", type:"Luxury SUV", seats:5, price:20000, price_hour:150,reg: "GJ 01 RR 9090", image: "D:\\Images\\range_rover.jpg", available:1, desc:"Spacious SUV" },
+   { id:27, name:"Rolls Royce Ghost", brand:"Rolls Royce", type:"Sedan", seats:5, price:45000, price_hour:150,reg: "GJ 01 RR 9090", image: "D:\\Images\\rolls_royce.webp", available:1, desc:"Spacious SUV" },
+   { id:28, name:"G-Wagon", brand:"Mercedes", type:"Luxury SUV", seats:5, price:15000, price_hour:150,reg: "GJ 01 RR 9090", image: "D:\\Images\\G-wagoan.avif" , available:1, desc:"Spacious SUV" }, 
+   { id:29, name:"Wrangler 2-Door", brand:"Zeep", type:"Off-Road SUV", seats:4, price:12000, price_hour:150,reg: "GJ 01 RR 9090", image: "D:\\Images\\Two door jeep.jpg", available:1, desc:"Spacious SUV" },
+   { id:30, name:"Force Urbania", brand:"Force Motors", type:"MPV", seats:9, price:8000, price_hour:150,reg: "GJ 27 UR 9988", image: "D:\\Images\\force-urbania.jpg", available:1, desc:"Spacious SUV" },
+   { id:31, name:"Force Traveller 17-Seater", brand:"Force Motors", type:"Van", seats:17, price:12000, price_hour:150, reg: "GJ 10 TV 4567",image: "D:\\Images\\forcetraveller.webp", available:1, desc:"Spacious SUV" },
+
+];
+
+
+let cars = demoCars;
+const carModal = new bootstrap.Modal(document.getElementById('carModal'));
+
+document.getElementById("openAdd").addEventListener("click", () => {
+    document.getElementById("carForm").reset();   // form clear
+    document.getElementById("carModalTitle").innerText = "Add Car";  // title set
+    carModal.show();   // MODAL OPEN
+});
+
+
+function renderCars(list){
+  const body = document.getElementById('carsBody');
+  body.innerHTML = '';
+  list.forEach(c=>{
+    body.innerHTML += `
+      <tr>
+        <td><img src="${c.image}" /></td>
+        <td>${c.name}</td>
+        <td>${c.brand}</td>
+        <td>${c.type}</td>
+        <td>${c.seats}</td>
+        <td>₹${c.price}</td>
+        <td>${c.available ? 'Available' : 'Not Available'}</td>
+        <td>
+          <button class="btn btn-sm btn-edit" onclick="openEdit(${c.id})"><i class="fa fa-edit"></i></button>
+          <button class="btn btn-sm btn-del" onclick="deleteCar(${c.id})"><i class="fa fa-trash"></i></button>
+        </td>
+      </tr>`;
+  });
+}
+
+function openEdit(id){
+  const car = cars.find(x=>x.id===id);
+  if(!car) return;
+  carModal.show();
+}
+
+function deleteCar(id){
+  cars = cars.filter(c=>c.id!==id);
+  renderCars(cars);
+}
+
+renderCars(cars);
+</script>
+</body>
+</html>
