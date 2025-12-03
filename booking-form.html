@@ -1,0 +1,418 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Booking Form — DriveMatrix + Payment</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+  body{
+    font-family: Poppins, sans-serif;
+    margin:0;
+    background: linear-gradient(120deg,#1D976C,#93F9B9,#4facfe,#00f2fe);
+    background-size:400% 400%;
+    animation: bgMove 12s ease infinite;
+    color:#102a43;
+    padding:30px 12px;
+  }
+  @keyframes bgMove {0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+  .card-glass{
+    max-width: 900px;
+    margin: auto;
+    background: rgba(255,255,255,0.95);
+    border-radius: 14px;
+    padding: 18px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+  }
+
+  .summary-box{
+    background: #0b2f3a;
+    color: #fff;
+    padding: 16px;
+    border-radius: 10px;
+  }
+
+  label{ font-weight:600; }
+  .small-muted{ font-size:0.9rem; color:#666; }
+
+  .btn-primary {
+    background: linear-gradient(90deg,#ff8a00,#e52e71);
+    border: none;
+  }
+</style>
+</head>
+<body>
+
+<div class="card-glass">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h3>Confirm Booking</h3>
+    <a class="btn btn-sm btn-outline-secondary" href="cardetails.html">Back to Cars</a>
+  </div>
+
+  <div class="row g-4">
+    <!-- LEFT: Form -->
+    <div class="col-lg-7">
+
+      <div id="carInfo" class="mb-3">
+        <h5 id="carTitle">Loading car...</h5>
+        <p class="small-muted" id="carMeta"></p>
+      </div>
+
+      <form id="bookingForm">
+
+        <div class="row g-2">
+          <div class="col-md-6">
+            <label for="custName">Full Name</label>
+            <input id="custName" class="form-control" placeholder="Your full name" required>
+          </div>
+          <div class="col-md-6">
+            <label for="custPhone">Phone</label>
+            <input id="custPhone" class="form-control" placeholder="Mobile number" required>
+          </div>
+        </div>
+
+        <div class="row g-2 mt-2">
+          <div class="col-md-12">
+            <label for="custEmail">Email</label>
+            <input id="custEmail" class="form-control" placeholder="Email (optional)">
+          </div>
+        </div>
+
+        <hr>
+
+        <div class="row g-2">
+          <div class="col-md-6">
+            <label for="startDate">Pick-up Date</label>
+            <input id="startDate" type="date" class="form-control" required onchange="recalculate()">
+          </div>
+          <div class="col-md-6">
+            <label for="startTime">Pick-up Time</label>
+            <input id="startTime" type="time" class="form-control" required onchange="recalculate()">
+          </div>
+
+          <div class="col-md-6 mt-2">
+            <label for="endDate">Drop-off Date</label>
+            <input id="endDate" type="date" class="form-control" required onchange="recalculate()">
+          </div>
+          <div class="col-md-6 mt-2">
+            <label for="endTime">Drop-off Time</label>
+            <input id="endTime" type="time" class="form-control" required onchange="recalculate()">
+          </div>
+        </div>
+
+        <div class="row g-2 mt-3">
+          <div class="col-md-6">
+            <label for="pickupLoc">Pick-up Location</label>
+            <input id="pickupLoc" class="form-control" placeholder="Pickup address or city" required>
+          </div>
+          <div class="col-md-6">
+            <label for="dropLoc">Drop-off Location</label>
+            <input id="dropLoc" class="form-control" placeholder="Drop address or city"  required>
+          </div>
+        </div>
+
+        <div class="row g-2 mt-3 align-items-end">
+          <div class="col-md-6">
+            <label for="driverOpt">Need Driver?</label>
+            <select id="driverOpt" class="form-select" onchange="recalculate()">
+              <option value="no">No</option>
+              <option value="yes">Yes (+₹500/day)</option>
+            </select>
+          </div>
+          <div class="col-md-6">
+            <label for="bookingType">Booking Type</label>
+            <select id="bookingType" class="form-select" onchange="recalculate()">
+              <option value="daily">Daily</option>
+              <option value="hourly">Hourly</option>
+              <option value="weekly">Weekly</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="mt-3">
+          <label for="notes">Additional Notes (optional)</label>
+          <textarea id="notes" rows="3" class="form-control" placeholder="Any special requests..."></textarea>
+        </div>
+
+        <hr>
+
+        <!-- PAYMENT METHOD SECTION -->
+        <h5 class="mt-2 mb-2">Payment Method</h5>
+
+        <div class="form-check">
+          <input class="form-check-input" type="radio" name="paymentMethod" value="cod" id="pm1" checked>
+          <label class="form-check-label" for="pm1">Pay at Pickup (Cash)</label>
+        </div>
+
+        <div class="form-check mt-1">
+          <input class="form-check-input" type="radio" name="paymentMethod" value="online" id="pm2">
+          <label class="form-check-label" for="pm2">Online Payment (Razorpay)</label>
+        </div>
+
+        <div class="mt-4 d-grid">
+	<a href="bookingsuccess.html">
+          <button id="submitBtn" class="btn btn-primary btn-lg w-100" type="submit">Confirm & Pay</button></a>
+        </div>
+      </form>
+    </div>
+
+    <div class="col-lg-5">
+      <div class="summary-box">
+        <h5 class="mb-2">Booking Summary</h5>
+        <div class="mb-2"><div class="small-muted">Selected Car</div><div id="s_car">—</div></div>
+        <div class="mb-2"><div class="small-muted">Price Per Day</div><div id="s_price">—</div></div>
+        <div class="mb-2"><div class="small-muted">Duration</div><div id="s_duration">—</div></div>
+        <div class="mb-2"><div class="small-muted">Driver Charges</div><div id="s_driver">—</div></div>
+        <hr>
+        <div class="mb-2"><div class="small-muted">Subtotal</div><div id="s_subtotal">—</div></div>
+        <div class="mb-2"><div class="small-muted">Taxes (18%)</div><div id="s_tax">—</div></div>
+        <div class="mb-2"><div class="small-muted">Total Payable</div><div id="s_total" style="font-size:20px;font-weight:800">—</div>
+<small class="d-block mt-3">Note: Driver charges are applied per day. For hourly bookings driver charges will be pro-rata.</small>
+	</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+/* ====== Demo fallback car data ====== */
+const demoCars = [
+  { id:1, name:"Swift", brand:"Maruti", price_per_day:1500, price_per_hour:100, seats:5, type:'Hatchback', image:'https://cdn.motor1.com/images/mgl/0ANJP/s1/2021-maruti-suzuki-swift.webp' },
+  { id:2, name:"Creta", brand:"Hyundai", price_per_day:2200, price_per_hour:150, seats:5, type:'SUV', image:'https://stimg.cardekho.com/images/carexteriorimages/930x620/Hyundai/Creta/9154/1675055314385/front-left-side-47.jpg' }
+];
+
+const DRIVER_CHARGE_PER_DAY = 500;
+
+/* ===== read carId from URL ===== */
+const params = new URLSearchParams(window.location.search);
+const carId = parseInt(params.get('carId')) || null;
+
+let selectedCar = null;
+
+/* ===== helper date-time parsing and calculation ===== */
+function parseDateTime(dateStr, timeStr){
+  // dateStr format YYYY-MM-DD, timeStr HH:MM
+  if(!dateStr || !timeStr) return null;
+  const [y,m,d] = dateStr.split('-').map(Number);
+  const [hh,mm] = timeStr.split(':').map(Number);
+  return new Date(y, m-1, d, hh, mm, 0);
+}
+
+// returns {hours:..., days:..., billableDays:..., billableHours:...}
+function computeDuration(startDT, endDT, bookingType){
+  if(!startDT || !endDT) return {hours:0, days:0, billableDays:0, billableHours:0};
+  let diffMs = endDT - startDT;
+  if(diffMs <= 0) return {hours:0, days:0, billableDays:0, billableHours:0};
+
+  const hours = Math.ceil(diffMs / (1000*60*60)); // rounded up hours
+  const days = Math.ceil(diffMs / (1000*60*60*24)); // rounded up days
+  // decide billing:
+  if(bookingType === 'hourly'){
+    return {hours: hours, days: Math.ceil(hours/24), billableDays: 0, billableHours: hours};
+  } else if(bookingType === 'weekly'){
+    // convert days to weeks rounding up
+    const weeks = Math.ceil(diffMs / (1000*60*60*24*7));
+    return {hours: hours, days: days, billableDays: weeks*7, billableHours: 0, weeks: weeks};
+  } else { // daily
+    return {hours: hours, days: days, billableDays: days, billableHours: 0};
+  }
+}
+
+/* ===== fetch car data ===== */
+async function loadCar(){
+  let car = null;
+  if(!carId){
+    // no car provided
+    selectedCar = demoCars[0];
+    renderCar();
+    return;
+  }
+
+  try{
+    const res = await fetch(/api/cars/${carId});
+    if(res.ok){
+      car = await res.json();
+    } else {
+      car = demoCars.find(c=>c.id===carId);
+    }
+  } catch(e){
+    car = demoCars.find(c=>c.id===carId);
+  }
+
+  selectedCar = car;
+  renderCar();
+}
+
+function renderCar(){
+  if(!selectedCar) return;
+  document.getElementById('carTitle').innerText = ${selectedCar.name} (${selectedCar.brand});
+  document.getElementById('carMeta').innerText = ${selectedCar.type} • ${selectedCar.seats} seats;
+  // summary
+  document.getElementById('s_car').innerText = selectedCar.name;
+  document.getElementById('s_price').innerText = ₹ ${selectedCar.price_per_day || selectedCar.price}/day;
+  // pre-fill dates to today+1
+  const now = new Date();
+  const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate()+1);
+  document.getElementById('startDate').value = now.toISOString().slice(0,10);
+  document.getElementById('startTime').value = now.toTimeString().slice(0,5);
+  document.getElementById('endDate').value = tomorrow.toISOString().slice(0,10);
+  document.getElementById('endTime').value = document.getElementById('startTime').value;
+  recalcAll();
+}
+
+/* ===== recalc totals ===== */
+function recalcAll(){
+  // read fields
+  const sd = document.getElementById('startDate').value;
+  const st = document.getElementById('startTime').value;
+  const ed = document.getElementById('endDate').value;
+  const et = document.getElementById('endTime').value;
+  const driverOpt = document.getElementById('driverOpt').value;
+  const bookingType = document.getElementById('bookingType').value;
+
+  const startDT = parseDateTime(sd, st);
+  const endDT = parseDateTime(ed, et);
+  const dur = computeDuration(startDT, endDT, bookingType);
+
+  // base price
+  const pricePerDay = selectedCar?.price_per_day || selectedCar?.price || 0;
+  const pricePerHour = selectedCar?.price_per_hour || Math.ceil(pricePerDay/24);
+
+  let subtotal = 0;
+  let driverCharge = 0;
+
+  if(bookingType === 'hourly'){
+    subtotal = (dur.billableHours || dur.hours) * pricePerHour;
+    // pro-rata driver charge: (hours/24)*driver daily charge, rounded up to nearest day
+    if(driverOpt === 'yes'){
+      const daysForDriver = Math.ceil((dur.billableHours || dur.hours)/24);
+      driverCharge = daysForDriver * DRIVER_CHARGE_PER_DAY;
+    }
+  } else if(bookingType === 'weekly'){
+    // pricePerDay * billableDays (which are weeks*7)
+    subtotal = pricePerDay * (dur.billableDays || dur.days);
+    if(driverOpt === 'yes'){
+      driverCharge = (dur.billableDays || dur.days) * DRIVER_CHARGE_PER_DAY;
+    }
+  } else {
+    subtotal = pricePerDay * (dur.billableDays || dur.days);
+    if(driverOpt === 'yes'){
+      driverCharge = (dur.billableDays || dur.days) * DRIVER_CHARGE_PER_DAY;
+    }
+  }
+
+  // taxes (GST 18%)
+  const tax = +(subtotal * 0.18).toFixed(2);
+  const total = +(subtotal + driverCharge + tax).toFixed(2);
+
+  // update UI
+  const durText = bookingType === 'hourly' ? ${dur.hours} hours : (bookingType==='weekly' ? ${dur.weeks || Math.ceil(dur.days/7)} weeks : ${dur.days} days);
+  document.getElementById('s_duration').innerText = durText || '0';
+  document.getElementById('s_driver').innerText = driverCharge ? ₹ ${driverCharge} : '₹ 0';
+  document.getElementById('s_subtotal').innerText = ₹ ${subtotal};
+  document.getElementById('s_tax').innerText = ₹ ${tax};
+  document.getElementById('s_total').innerText = ₹ ${total};
+
+  // store calculation for submit
+  window.bookingCalc = {
+    subtotal, driverCharge, tax, total, dur
+  };
+}
+
+/* event recalc */
+function recalculate(){ recalcAll(); }
+
+/* form submit */
+document.getElementById('bookingForm').addEventListener('submit', async (e)=>{
+  e.preventDefault();
+
+  // validation
+  const name = document.getElementById('custName').value.trim();
+  const phone = document.getElementById('custPhone').value.trim();
+  const pickup = document.getElementById('pickupLoc').value.trim();
+  const dropoff = document.getElementById('dropLoc').value.trim();
+  if(!name || !phone || !pickup || !dropoff){ alert('Please fill required fields'); return; }
+
+  // prepare payload
+  const payload = {
+    car_id: selectedCar.id,
+    customer_name: name,
+    customer_phone: phone,
+    customer_email: document.getElementById('custEmail').value.trim(),
+    pickup_location: pickup,
+    dropoff_location: dropoff,
+    start_datetime: new Date(document.getElementById('startDate').value + 'T' + document.getElementById('startTime').value).toISOString(),
+    end_datetime: new Date(document.getElementById('endDate').value + 'T' + document.getElementById('endTime').value).toISOString(),
+    booking_type: document.getElementById('bookingType').value,
+    driver_required: document.getElementById('driverOpt').value === 'yes' ? 1 : 0,
+    notes: document.getElementById('notes').value.trim(),
+    pricing: window.bookingCalc || {}
+  };
+
+  // send to API (expects JWT if available)
+  try{
+    const token = localStorage.getItem('token'); // if user logged in
+    const res = await fetch('/api/bookings', {
+      method: 'POST',
+      headers: {
+        'Content-Type':'application/json',
+        ...(token ? {'Authorization':'Bearer ' + token} : {})
+      },
+      body: JSON.stringify(payload)
+    });
+
+    const data = await res.json();
+    if(res.ok){
+      alert('Booking confirmed! Booking ID: ' + (data.booking_id || data.id || '—'));
+      // optionally redirect to booking history
+      window.location.href = 'booking-history.html';
+    } else {
+      alert(data.error || 'Booking failed: ' + JSON.stringify(data));
+    }
+  }catch(err){
+    alert('Network error: ' + err.message);
+  }
+
+});
+
+/* initialize */
+loadCar();
+document.getElementById('driverOpt').addEventListener('change', recalcAll);
+document.getElementById('bookingType').addEventListener('change', recalcAll);
+document.getElementById('startDate').addEventListener('change', recalcAll);
+document.getElementById('startTime').addEventListener('change', recalcAll);
+document.getElementById('endDate').addEventListener('change', recalcAll);
+document.getElementById('endTime').addEventListener('change', recalcAll);
+</script>
+
+<script>
+// PAYMENT LOGIC
+async function startOnlinePayment(amount, bookingId){
+  const options = {
+    key: "rzp_test_1234567890", // replace
+    amount: Math.round(amount * 100),
+    currency: "INR",
+    name: "DriveMatrix Booking",
+    description: "Car Booking Payment",
+    handler: async function (response) {
+      await fetch(`/api/bookings/${bookingId}/payment-complete`, {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({payment_id: response.razorpay_payment_id})
+      });
+      alert("Payment Successful!");
+      window.location.href = "booking-history.html";
+    },
+    theme: { color: "#0b2f3a" }
+  };
+  const rzp = new Razorpay(options);
+  rzp.open();
+}
+</script>
+
+</body>
+</html>
