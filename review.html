@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reviews & Ratings</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Icons -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+    body {
+        background: #f2f5fb;
+        font-family: 'Poppins', sans-serif;
+    }
+    .review-box {
+        background: #fff;
+        padding: 25px;
+        border-radius: 12px;
+        box-shadow: 0 8px 30px rgba(0,0,0,0.08);
+        max-width: 800px;
+        margin: auto;
+    }
+    .star {
+        font-size: 30px;
+        color: #d1d5db;
+        cursor: pointer;
+        transition: 0.2s;
+    }
+    .star.active {
+        color: #ffcc00;
+    }
+    .star:hover {
+        transform: scale(1.2);
+    }
+    .review-card {
+        background: #fff;
+        padding: 18px;
+        border-radius: 10px;
+        margin-bottom: 15px;
+        box-shadow: 0 5px 18px rgba(0,0,0,0.06);
+    }
+    .avg-box {
+        background: linear-gradient(90deg,#1D976C,#93F9B9);
+        padding: 15px;
+        color: #fff;
+        border-radius: 12px;
+        text-align: center;
+        margin-bottom: 25px;
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container mt-5">
+
+    <!-- AVERAGE RATING -->
+    <div class="avg-box">
+        <h1 id="avgRating">4.8</h1>
+        <p class="mb-0">Average Rating</p>
+    </div>
+
+    <!-- REVIEW FORM -->
+    <div class="review-box mb-4">
+        <h4 class="mb-3">Write a Review</h4>
+
+        <!-- Stars -->
+        <div class="mb-3" id="starContainer">
+            <i class="fa-solid fa-star star" data-value="1"></i>
+            <i class="fa-solid fa-star star" data-value="2"></i>
+            <i class="fa-solid fa-star star" data-value="3"></i>
+            <i class="fa-solid fa-star star" data-value="4"></i>
+            <i class="fa-solid fa-star star" data-value="5"></i>
+        </div>
+
+        <!-- Review Inputs -->
+        <input type="text" id="username" class="form-control mb-3" placeholder="Your Name">
+        <textarea id="reviewText" class="form-control mb-3" placeholder="Write your review..." rows="4"></textarea>
+
+        <button class="btn btn-success w-100" onclick="submitReview()">Submit Review</button>
+    </div>
+
+    <!-- ALL REVIEWS -->
+    <h4 class="mb-3 text-center">Customer Reviews</h4>
+    <div id="reviewList"></div>
+
+</div>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+let selectedStars = 0;
+let reviews = [];
+
+// ⭐ STAR SELECT
+document.querySelectorAll('.star').forEach(star => {
+    star.addEventListener('click', function () {
+        selectedStars = this.getAttribute('data-value');
+        updateStars();
+    });
+});
+
+// UPDATE STAR UI
+function updateStars() {
+    document.querySelectorAll('.star').forEach(star => {
+        star.classList.remove('active');
+
+        if (star.getAttribute('data-value') <= selectedStars) {
+            star.classList.add('active');
+        }
+    });
+}
+
+// SUBMIT REVIEW
+function submitReview() {
+    let name = document.getElementById("username").value.trim();
+    let text = document.getElementById("reviewText").value.trim();
+
+    if (!name || !text || selectedStars === 0) {
+        alert("Please fill all fields and select rating");
+        return;
+    }
+
+    let review = {
+        user: name,
+        message: text,
+        rating: selectedStars,
+        date: new Date().toLocaleDateString()
+    };
+
+    // Add review to list
+    reviews.push(review);
+
+    // Update UI
+    renderReviews();
+    calculateAverage();
+
+    // Clear inputs
+    document.getElementById("username").value = "";
+    document.getElementById("reviewText").value = "";
+    selectedStars = 0;
+    updateStars();
+}
+
+// RENDER ALL REVIEWS
+function renderReviews() {
+    let container = document.getElementById("reviewList");
+    container.innerHTML = "";
+
+    reviews.forEach(r => {
+        container.innerHTML += `
+            <div class="review-card">
+                <h6>${r.user} <small class="text-muted">(${r.date})</small></h6>
+                <div class="text-warning mb-2">
+                    ${"★".repeat(r.rating)}${"☆".repeat(5 - r.rating)}
+                </div>
+                <p>${r.message}</p>
+            </div>
+        `;
+    });
+}
+
+// CALCULATE AVG RATING
+function calculateAverage() {
+    if (reviews.length === 0) {
+        document.getElementById("avgRating").innerText = "0.0";
+        return;
+    }
+
+    let total = reviews.reduce((acc, r) => acc + Number(r.rating), 0);
+    let avg = (total / reviews.length).toFixed(1);
+
+    document.getElementById("avgRating").innerText = avg;
+}
+
+</script>
+
+</body>
+</html>

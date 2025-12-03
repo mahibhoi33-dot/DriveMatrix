@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Compare Cars — DriveMatrix</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<!-- Bootstrap (optional) -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+<style>
+  :root{
+    --card-bg: rgba(255,255,255,0.95);
+    --glass: rgba(255,255,255,0.92);
+    --accent1: #ff8a00;
+    --accent2: #e52e71;
+    --best: #28a745;
+    --second: #f39c12;
+  }
+
+  body {
+    margin: 0;
+    font-family: "Poppins", sans-serif;
+    background: linear-gradient(120deg,#1D976C,#93F9B9,#4facfe,#00f2fe);
+    background-size: 400% 400%;
+    animation: bgMove 12s ease infinite;
+    color: #0f1724;
+  }
+  @keyframes bgMove {0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}
+
+  .container-main { padding: 28px; max-width:1200px; margin:auto; }
+
+  .top-bar { display:flex; justify-content:space-between; align-items:center; margin-bottom:18px; color:white; }
+  .brand { font-weight:700; font-size:20px; }
+
+  /* Car card */
+  .car-card {
+    background: var(--card-bg);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    transition: transform .18s;
+  }
+  .car-card:hover { transform: translateY(-6px); }
+  .car-img { width:100%; height:160px; object-fit:cover; display:block; }
+  .car-body { padding:12px; }
+  .car-title { font-weight:700; margin-bottom:6px; }
+  .car-meta { color:#555; font-size:13px; margin-bottom:8px; }
+
+  .add-compare { background: linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; border:none; padding:7px 10px; border-radius:8px; cursor:pointer; }
+  .btn-secondary-outline { border:1px solid #ccc; background:white; padding:7px 10px; border-radius:8px; }
+
+  /* sticky compare bar */
+  .compare-bar {
+    position: fixed;
+    right: 20px;
+    bottom: 20px;
+    width: 380px;
+    max-width: 94%;
+    background: var(--glass);
+    border-radius:12px;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.22);
+    padding:12px;
+    z-index: 1200;
+    display: none;
+  }
+  .compare-list { display:flex; gap:8px; margin-bottom:10px; flex-wrap:wrap; }
+  .cmp-item { width:70px; text-align:center; font-size:12px; position:relative; }
+  .cmp-item img { width:70px; height:46px; object-fit:cover; border-radius:6px; display:block; }
+  .cmp-remove { position:absolute; right:-6px; top:-8px; background:#ff4d4f; color:white; border-radius:50%; width:20px; height:20px; display:flex; align-items:center; justify-content:center; font-size:12px; cursor:pointer; border:2px solid white; }
+
+  /* compare table area */
+  .compare-area {
+    margin-top:20px;
+    display:none;
+    background: rgba(255,255,255,0.98);
+    border-radius:12px;
+    padding:16px;
+    box-shadow: 0 10px 28px rgba(0,0,0,0.14);
+  }
+  .compare-table th, .compare-table td { text-align:center; vertical-align:middle; }
+  .highlight-best { background: rgba(40,167,69,0.12); font-weight:700; border-radius:6px; padding:4px; }
+  .highlight-second { background: rgba(243,156,18,0.10); font-weight:700; border-radius:6px; padding:4px; }
+
+  /* responsive */
+  @media (max-width:900px){
+    .compare-bar { left: 12px; right: 12px; width:auto; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container-main">
+  <div class="top-bar">
+    <div class="brand text-white"><i class="fa-solid fa-car-side me-2"></i>DriveMatrix — Compare</div>
+    <div>
+      <a class="btn btn-light btn-sm me-2" href="cardetails.html">Browse Cars</a>
+      <a class="btn btn-outline-light btn-sm" href="home.html">Home</a>
+    </div>
+  </div>
+
+  <!-- Filters -->
+  <div class="row g-3 mb-4">
+    <div class="col-md-4">
+      <input id="searchInput" class="form-control" placeholder="Search by name or brand...">
+    </div>
+    <div class="col-md-2">
+      <select id="filterType" class="form-select">
+        <option value="">Type</option><option>Hatchback</option><option>SUV</option><option>MUV</option><option>Sedan</option><option>MPV</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <select id="filterSeats" class="form-select">
+        <option value="">Seats</option><option>4</option><option>5</option><option>7</option>
+      </select>
+    </div>
+    <div class="col-md-2">
+      <select id="sortBy" class="form-select">
+        <option value="">Sort</option>
+        <option value="price-asc">Price: Low → High</option>
+        <option value="price-desc">Price: High → Low</option>
+        <option value="mileage-desc">Mileage: High → Low</option>
+        <option value="rating-desc">Rating: High → Low</option>
+      </select>
+    </div>
+    <div class="col-md-2 text-end">
+      <button id="clearFilters" class="btn btn-outline-light">Clear</button>
+    </div>
+  </div>
+
+  <!-- Cars Grid -->
+  <div class="row g-4" id="carsGrid"></div>
+
+  <!-- Compare area (table) -->
+  <div id="compareArea" class="compare-area">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h5 class="m-0">Comparison Result</h5>
+      <div>
+        <button id="exportPdf" class="btn btn-outline-primary btn-sm me-2"><i class="fa-solid fa-file-pdf me-1"></i>Export</button>
+        <button id="closeCompare" class="btn btn-secondary btn-sm">Close</button>
+      </div>
+    </div>
+
+    <div id="suggestions" class="mb-3"></div>
+
+    <div class="table-responsive">
+      <table class="table compare-table table-bordered">
+        <thead class="table-light">
+          <tr id="compHead"></tr>
+        </thead>
+        <tbody id="compBody"></tbody>
+      </table>
+    </div>
+
+    <div class="d-flex gap-2 mt-2">
+      <button id="bookSelected" class="btn btn-success">Book Selected</button>
+      <button id="clearCompare" class="btn btn-outline-danger">Clear Compare</button>
+    </div>
+  </div>
+</div>
+
+<!-- Sticky Compare Bar -->
+<div id="compareBar" class="compare-bar">
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <strong>Compare (<span id="cmpCount">0</span>/3)</strong>
+    <div>
+      <button id="openCompare" class="btn btn-sm btn-outline-primary">Open</button>
+    </div>
+  </div>
+  <div id="compareList" class="compare-list"></div>
+  <div class="d-grid">
+    <button id="doCompare" class="compare-btn" style="background:linear-gradient(90deg,var(--accent1),var(--accent2)); color:white; border:none; padding:10px; border-radius:8px;">Compare Now</button>
+  </div>
+</div>
+
+<script>
+/* ------------------ Demo / Backend loading ------------------ */
+const demoCars = [
+  { id:1, name:"Swift", brand:"Maruti", price:1500, mileage:22, features:["AC","ABS","Bluetooth"], seats:5, type:"Hatchback", rating:4.3, image:"D:\\Images\\swift_2.jpeg" },
+  { id:2, name:"Creta", brand:"Hyundai", price:2200, mileage:18, features:["AC","Camera","Cruise"], seats:5, type:"SUV", rating:4.6, image:"D:\\Images\\hyundai-creta.avif" },
+  { id:3, name:"Innova", brand:"Toyota", price:3200, mileage:14, features:["AC","7-Seater","ABS"], seats:7, type:"MUV", rating:4.7, image:"D:\\Images\\innova-hycross.webp" },
+  { id:4, name:"Baleno", brand:"Maruti", price:1400, mileage:20, features:["AC","Music","Airbags"], seats:5, type:"Hatchback", rating:4.1, image:"D:\\Images\\Baleno.webp" },
+  { id:5, name:"Altroz", brand:"Tata", price:1350, mileage:21, features:["AC","ABS","Music"], seats:5, type:"Hatchback", rating:4.0, image:"D:\\Images\\Altroz_Pic.jpeg" },
+  { id:6, name:"Scorpio", brand:"Mahindra", price:8000, mileage:12, features:["7-Seater","4x2 / 4x4","Strong Torque"], seats:7, type:"SUV", rating: 4.4, image: "D:\\Images\\Mahindra-Scorpio.avif" },
+  { id:7, name:"Fortuner", brand:"Toyota", price:15000, mileage:14.6, features:["7-Seater","4x4","Luxury SUV"], seats:7,type:"SUV", rating:4.7, image: "D:\\Images\\Toyota_Fortuner.avif" },
+  { id:8, name:"Eeco", brand:"Maruti", price:1800, mileage:19.71, features:["AC","5 Seater","Sliding Door"], seats:5, type:"Van", rating:4.0, image: "D:\\Images\\Eeco.jpg" },
+  { id:9, name:"Ertiga", brand:"Maruti", price:2800, mileage:20.3, features:["7-Seater","AC","Family"], seats:7, type:"MPV", rating: 4.2, image:"D:\\Images\\Ertiga.jpg" },
+  { id:10, name:"Vitara Brezza", brand:"Maruti", price:3000, mileage:18.76, features:["SUV","GPS","ABS"], seats:5, type:"SUV",rating:4.4, image: "D:\\Images\\Breenza.jpg" },
+  { id:11, name:"Bolero", brand:"Mahindra", price:2000, mileage:16, features:["Power Steering","ABS","Strong Build"], seats:7, type:"SUV", rating:4.3, image: "D:\\Images\\Bolero2.webp" },
+  { id:12, name:"Venue", brand:"Hyundai", price:3500, mileage:18.05, features:["SUV","Turbo Option","Bluetooth"], seats:5, type:"Compact SUV", rating:4.3, image:"D:\\Images\\Hyundai_Venue.webp" },
+  { id:13, name:"Jimny", brand:"Suzuki", price:12000, mileage:15, features:["4x4","Off-road","Compact"], seats:4, type:"SUV", rating:4.5, image:"D:\\Images\\maruti_suzuki_jimny.jpg"},
+  { id:14, name:"Kia Seltos", brand:"Kia", price:5000, mileage:17, features:["Sunroof","Cruise Control","Touch Screen"], seats:5, type:"SUV", rating:4.6, image: "D:\\Images\\Kia-seltos.jpg" },
+  { id:15, name:"Alto(New)", brand:"Maruti", price:1500, mileage:22, features:["Compact","AC","Economical"], seats:5, type:"Hatchback", rating:3.9,image: "D:\\Images\\Maruti-Suzuki-Alto.avif" },
+  { id:16, name:"Wagon R", brand:"Maruti", price:1800, mileage:20, features:["Tall Boy","Spacious","AC"], seats:5, type:"Hatchback", rating:4.0, image: "D:\\Images\\wagonr-waltz.webp" },
+  { id:17, name:"Dzire", brand:"Maruti", price:2000, mileage:21, features:["Sedan","AC","Boot Space"], seats:5, type:"Sedan", rating:4.2, image: "D:\\Images\\Maruti_Dzire.jpg" },
+  { id:18, name:"Punch", brand:"Tata", price:3000, mileage:18, features:["Compact SUV","Safety Features","Lightweight"], seats:5, type:"SUV", rating:4.3, image: "D:\\Images\\TataPunch.jpg" },
+  { id:19, name:"Thar", brand:"Mahindra", price:8000, mileage:14, features:["4x4","Offroad","Convertible Roof"], seats:4, type:"SUV", rating:4.7, image: "D:\\Images\\Thar.jpg" },
+  { id:20, name:"Virtus", brand:"Volkswagen", price:4500, mileage:16, features:["Sedan","Turbo","Luxury"], seats:5, type:"Sedan", rating:4.4, image: "D:\\Images\\virtus.webp" },
+  { id:21, name:"Marazzo", brand:"Mahindra", price:5500, mileage:17.3, features:["7-Seater","MPV","AC"], seats:7, type:"MPV", rating:4.1, image: "D:\\Images\\Marazzo-front-studio.jpg" },
+  { id:22, name:"Verna", brand:"Hyundai", price:3000, mileage:18.6,  features:["Sedan","Turbo Option","Premium Look"], seats: 5, type: "Sedan", rating: 4.3, image: "D:\\Images\\Verna.jpg" },
+  { id:23, name:"Toyota MR2 Spyder(2000)", brand:"Toyota", price: 8000, mileage: 11.5, features: ["Convertible","2-Seater", "Sport"], seats:2, type:"Sports", rating:4.5, image: "D:\\Images\\2003-mr2-spyder-2-1599224809.avif" },
+  { id:24, name:"Crown Signia", brand:"Toyota", price:12000, mileage:16.5, features:["Hybrid","AWD","Luxury Wagon"], seats:5, type:"Hybrid SUV", rating:4.7, image: "D:\\Images\\2025-Toyota-Crown-Signia.jpg" },
+   { id:25, name:"Tata Safari", brand:"Tata", price:7000, mileage:16.3, features:["7-Seater","SUV","Spacious","Good Ground Clearance"], seats:7, type: "SUV", rating:4.3, image: "D:\\Images\\tata-safari.webp" },
+  { id:26, name: "Range Rover", brand: "Land Rover", price: 20000, mileage:10, features:["Luxury","4x4","Premium Interior"], seats:5, type:"Luxury SUV", rating:4.8, image: "D:\\Images\\range_rover.jpg" },
+  { id:27, name:"Rolls Royce Ghost", brand:"Rolls Royce", price:45000, mileage:6, features:["Luxury Interior","Starlight Roof","Premium Leather","Automatic"], seats:5, type:"Luxury Sedan", rating:4.9, image: "D:\\Images\\rolls_royce.webp" },
+  { id:28, name:"G-Wagon", brand:"Mercedes", price:15000, mileage:12, features:["4x4","Luxury","Leather Seats"], seats:5, type:"Luxury SUV", rating: 4.8, image: "D:\\Images\\G-wagoan.avif" },
+  { id:29, name:"Wrangler 2-Door", brand:"Jeep", price:12000, mileage:9, features:["4x4","Removable Roof","Touchscreen"], seats:4, type:"Off-Road SUV", rating:4.9, image: "D:\\Images\\Two door jeep.jpg"},
+  { id:30, name:"Force Urbania", brand:"Force Motors", price:8000, mileage:15, features:["MPV","Spacious","Roof Rack"], seats:9, type:"MPV", rating:4.0, image: "D:\\Images\\force-urbania.jpg" },
+ { id:31, name:"Force Traveller 17-Seater",brand:"Force Motors",price:12000, mileage:13, features:["17 Seats","Minivan","High Roof"], seats:17, type:"Van", rating:4.2, image: "D:\\Images\\forcetraveller.webp" }
+];
+
+let cars = [];
+const MAX_COMPARE = 3;
+
+/* Compare stack persisted in localStorage */
+let compareStack = JSON.parse(localStorage.getItem('compareStack') || '[]');
+
+/* Fetch cars from backend, fallback to demo */
+async function loadCars(){
+  try{
+    const res = await fetch('/api/cars');
+    if(res.ok){ cars = await res.json(); }
+    else cars = demoCars;
+  }catch(e){
+    cars = demoCars;
+  }
+  renderCars(cars);
+  refreshCompareBar();
+}
+function viewDetails(id) {
+    localStorage.setItem("selectedCarId", id);
+    window.location.href = "cardetails.html";  // details page par redirect
+}
+
+/* Render grid */
+function renderCars(list){
+  const grid = document.getElementById('carsGrid');
+  grid.innerHTML = '';
+  list.forEach(car=>{
+    const col = document.createElement('div');
+    col.className = 'col-md-4 col-lg-3 mb-3';
+    col.innerHTML = `
+      <div class="car-card">
+        <img src="${car.image}" class="car-img" alt="${car.name}">
+        <div class="car-body">
+          <div class="car-title">${car.name} <small class="text-muted">(${car.brand})</small></div>
+          <div class="car-meta">₹${car.price}/day • ${car.mileage} kmpl • ${car.seats} seats</div>
+          <div class="d-flex justify-content-between align-items-center mt-2">
+            <button class="add-compare" data-id="${car.id}">${isInCompare(car.id) ? 'Remove' : 'Compare'}</button>
+                      </div>
+        </div>
+      </div>
+    `;
+    grid.appendChild(col);
+  });
+
+  // bind add/remove
+  document.querySelectorAll('.add-compare').forEach(btn=>{
+    btn.addEventListener('click', async () => {
+      const id = parseInt(btn.getAttribute('data-id'));
+      toggleCompare(id);
+      btn.innerText = isInCompare(id) ? 'Remove' : 'Compare';
+    });
+  });
+}
+
+/* Check in compare */
+function isInCompare(id){ return compareStack.find(c => c.id === id); }
+
+/* Toggle compare add/remove */
+function toggleCompare(carId){
+  const existing = compareStack.find(c=>c.id===carId);
+  if(existing){
+    compareStack = compareStack.filter(c=>c.id!==carId);
+  } else {
+    if(compareStack.length >= MAX_COMPARE){ alert('You can compare up to 3 cars only'); return; }
+    const car = cars.find(c=>c.id===carId) || demoCars.find(c=>c.id===carId);
+    if(!car) { alert('Car not found'); return; }
+    compareStack.push(car);
+  }
+  localStorage.setItem('compareStack', JSON.stringify(compareStack));
+  refreshCompareBar();
+}
+
+/* Refresh sticky compare bar */
+function refreshCompareBar(){
+  const bar = document.getElementById('compareBar');
+  const list = document.getElementById('compareList');
+  const cnt = document.getElementById('cmpCount');
+  list.innerHTML = '';
+  compareStack.forEach(c=>{
+    const div = document.createElement('div');
+    div.className = 'cmp-item';
+    div.innerHTML = `<img src="${c.image}" alt=""><div style="font-weight:600">${c.name}</div><div style="font-size:11px;color:#666">${c.brand}</div>
+                     <div class="cmp-remove" data-id="${c.id}" title="Remove">×</div>`;
+    list.appendChild(div);
+  });
+  cnt.innerText = compareStack.length;
+  bar.style.display = compareStack.length>0 ? 'block' : 'none';
+
+  // attach remove handlers
+  document.querySelectorAll('.cmp-remove').forEach(btn=>{
+    btn.addEventListener('click', ()=> {
+      const id = parseInt(btn.getAttribute('data-id'));
+      compareStack = compareStack.filter(c=>c.id!==id);
+      localStorage.setItem('compareStack', JSON.stringify(compareStack));
+      renderCars(cars);
+      refreshCompareBar();
+    });
+  });
+}
+
+/* Open compare area to show table */
+document.getElementById('doCompare').addEventListener('click', ()=> {
+  if(compareStack.length < 2) return alert('Select at least 2 cars to compare');
+  buildComparison();
+  document.getElementById('compareArea').style.display = 'block';
+  window.scrollTo({ top: document.getElementById('compareArea').offsetTop - 20, behavior:'smooth' });
+});
+
+/* Open from bar */
+document.getElementById('openCompare').addEventListener('click', ()=> {
+  if(compareStack.length < 2) return alert('Select at least 2 cars to compare');
+  buildComparison();
+  document.getElementById('compareArea').style.display = 'block';
+});
+
+/* build comparison table with highlights */
+function buildComparison(){
+  const head = document.getElementById('compHead');
+  const body = document.getElementById('compBody');
+  head.innerHTML = '<th>Parameter</th>';
+  body.innerHTML = '';
+
+  compareStack.forEach(c => {
+    head.innerHTML += `<th><img src="${c.image}" style="width:110px;height:60px;object-fit:cover;border-radius:6px"><div style="font-weight:700;margin-top:6px">${c.name}</div><div style="font-size:13px;color:#666">${c.brand}</div></th>`;
+  });
+
+  const rows = [
+    { key:'price', label:'Price/day', val: c => c.price },
+    { key:'mileage', label:'Mileage (kmpl)', val: c => c.mileage },
+    { key:'seats', label:'Seats', val: c => c.seats },
+    { key:'type', label:'Car Type', val: c => c.type },
+    { key:'features', label:'Top Features', val: c => c.features?.slice(0,3).join(', ') || '' },
+    { key:'rating', label:'Rating', val: c => c.rating || 0 }
+  ];
+
+  // compute best/worst for highlights (for numeric fields)
+  const numericKeys = ['price','mileage','seats','rating'];
+  const stats = {};
+  numericKeys.forEach(k => {
+    const values = compareStack.map(c => (k==='price' ? c.price : (k==='rating' ? (c.rating||0) : c[k]||0)));
+    if(values.length){
+      stats[k] = { min: Math.min(...values), max: Math.max(...values) };
+    }
+  });
+
+  rows.forEach(row => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td style="font-weight:700">${row.label}</td>`;
+    compareStack.forEach(c=>{
+      let value = row.val(c);
+      let tdClass = '';
+      // highlight logic
+      if(row.key === 'price' && c.price === stats.price.min) tdClass = 'highlight-best';
+      if(row.key === 'mileage' && c.mileage === stats.mileage.max) tdClass = 'highlight-best';
+      if(row.key === 'rating' && (c.rating||0) === stats.rating.max) tdClass = 'highlight-best';
+      // seats - more seats may be better for family; mark max
+      if(row.key === 'seats' && c.seats === stats.seats.max) tdClass = 'highlight-second';
+
+      tr.innerHTML += `<td class="${tdClass || ''}">${value}</td>`;
+    });
+    body.appendChild(tr);
+  });
+
+  // suggestions
+  const bestBudget = compareStack.reduce((a,b)=> a.price < b.price ? a : b);
+  const bestMileage = compareStack.reduce((a,b)=> a.mileage > b.mileage ? a : b);
+  const bestRating = compareStack.reduce((a,b)=> (a.rating||0) > (b.rating||0) ? a : b);
+  document.getElementById('suggestions').innerHTML = `
+    <div>
+      <span style="display:inline-block;padding:6px 10px;border-radius:8px;background:rgba(40,167,69,0.12);margin-right:8px;font-weight:700">Best Budget: ${bestBudget.name}</span>
+      <span style="display:inline-block;padding:6px 10px;border-radius:8px;background:rgba(243,156,18,0.10);margin-right:8px;font-weight:700">Best Mileage: ${bestMileage.name}</span>
+      <span style="display:inline-block;padding:6px 10px;border-radius:8px;background:rgba(111,66,193,0.10);font-weight:700">Best Rating: ${bestRating.name}</span>
+    </div>
+  `;
+}
+
+/* booking selected -> navigate to booking form with first car id */
+document.getElementById('bookSelected').addEventListener('click', ()=>{
+  if(compareStack.length === 0) return;
+  const carId = compareStack[0].id;
+  window.location.href = `booking-form.html?carId=${carId}`;
+});
+
+/* clear compare */
+document.getElementById('clearCompare').addEventListener('click', ()=>{
+  if(!confirm('Clear compared cars?')) return;
+  compareStack = [];
+  localStorage.removeItem('compareStack');
+  refreshCompareBar();
+  buildComparison();
+  document.getElementById('compareArea').style.display = 'none';
+  renderCars(cars);
+});
+
+/* close table area */
+document.getElementById('closeCompare').addEventListener('click', ()=> {
+  document.getElementById('compareArea').style.display = 'none';
+});
+
+/* export (print) */
+document.getElementById('exportPdf').addEventListener('click', ()=> {
+  window.print();
+});
+
+/* FILTERS and sorting */
+document.getElementById('searchInput').addEventListener('input', applyFilters);
+document.getElementById('filterType').addEventListener('change', applyFilters);
+document.getElementById('filterSeats').addEventListener('change', applyFilters);
+document.getElementById('sortBy').addEventListener('change', applyFilters);
+document.getElementById('clearFilters').addEventListener('click', ()=>{
+  document.getElementById('searchInput').value='';
+  document.getElementById('filterType').value='';
+  document.getElementById('filterSeats').value='';
+  document.getElementById('sortBy').value='';
+  renderCars(cars);
+});
+
+function applyFilters(){
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  const type = document.getElementById('filterType').value;
+  const seats = document.getElementById('filterSeats').value;
+  const sort = document.getElementById('sortBy').value;
+
+  let out = cars.filter(c => {
+    const matchQ = c.name.toLowerCase().includes(q) || c.brand.toLowerCase().includes(q);
+    const matchType = type ? c.type === type : true;
+    const matchSeats = seats ? String(c.seats) === String(seats) : true;
+    return matchQ && matchType && matchSeats;
+  });
+
+  if(sort){
+    if(sort === 'price-asc') out.sort((a,b)=>a.price-b.price);
+    if(sort === 'price-desc') out.sort((a,b)=>b.price-a.price);
+    if(sort === 'mileage-desc') out.sort((a,b)=>b.mileage-a.mileage);
+    if(sort === 'rating-desc') out.sort((a,b)=>(b.rating||0)-(a.rating||0));
+  }
+
+  renderCars(out);
+}
+
+/* initialize */
+(async function init(){
+  await loadCars();
+})();
+</script>
+</body>
+</html>
