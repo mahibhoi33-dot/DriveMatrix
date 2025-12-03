@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Profile</title>
+
+<!-- Bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<!-- Icons -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<style>
+body { background:#eef1f7; margin:0; font-family: 'Poppins', sans-serif; }
+
+/* Sidebar */
+.sidebar {
+    width:230px;
+    height:100vh;
+    background:#212529;
+    position:fixed;
+    color:#fff;
+    padding-top:30px;
+}
+.sidebar h4 {
+    text-align:center;
+    margin-bottom:20px;
+    margin-top: 0px;
+    font-size: 22px;
+}
+.sidebar a {
+    display:block;
+    padding:13px 20px;
+    text-decoration:none;
+    color:#d9d9d9;
+    font-size:16px;
+}
+.sidebar a:hover, .sidebar .active {
+    background:#343a40;
+    color:#fff;
+}
+
+/* Main */
+.main {
+    margin-left:240px;
+    padding:20px;
+}
+
+/* Profile Card */
+.profile-card {
+    max-width:850px;
+    background:white;
+    padding:30px;
+    border-radius:15px;
+    box-shadow:0 4px 15px rgba(0,0,0,0.1);
+    margin-top:20px;
+}
+
+/* Profile Image */
+.profile-pic-box {
+    text-align:center;
+}
+.profile-pic {
+    width:120px;
+    height:120px;
+    border-radius:50%;
+    object-fit:cover;
+    border:4px solid #2563eb;
+}
+.upload-btn {
+    font-size:14px;
+    margin-top:8px;
+}
+
+/* Save Button */
+.save-btn {
+    background:#2563eb;
+    color:#fff;
+    padding:12px 28px;
+    border:none;
+    border-radius:8px;
+    font-size:17px;
+}
+.save-btn:hover {
+    background:#1e40af;
+}
+</style>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h4>User Panel</h4>
+    <a href="Userdashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <a href="My-booking.html"><i class="bi bi-car-front"></i> My Bookings</a>
+    <a href="Notification.html"><i class="bi bi-bell"></i> Notifications</a>
+    <a class="active" href="Userpanelprofile.html"><i class="bi bi-person"></i> Profile</a>
+    <a href="Setting.html"><i class="bi bi-gear"></i> Settings</a>
+    <a href="Logout.html"><i class="bi bi-box-arrow-right"></i> Logout</a>
+</div>
+
+<!-- Main Content -->
+<div class="main">
+
+    <div class="profile-card">
+
+        <!-- Profile Top Section -->
+        <div class="row mb-4">
+            <div class="col-md-4 profile-pic-box">
+                <img id="profileImg" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" class="profile-pic">
+                <input id="fileInput" type="file" class="form-control mt-2">
+                <button class="btn btn-outline-primary btn-sm upload-btn" onclick="uploadPhoto()">Upload Photo</button>
+            </div>
+
+            <div class="col-md-8 d-flex align-items-center">
+                <div>
+                    <h3 class="mb-1" id="nameText">Mahi Bhoi</h3>
+                    <p class="text-secondary mb-1" id="emailText">mahibhoi@gmail.com</p>
+                    <p class="text-secondary">User ID: #DM24566</p>
+                </div>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Profile Form -->
+        <div class="row mt-4">
+
+            <div class="col-md-6">
+                <label>Full Name</label>
+                <input id="fullName" class="form-control" type="text" value="Mahi Bhoi">
+            </div>
+
+            <div class="col-md-6">
+                <label>Email Address</label>
+                <input id="email" class="form-control" type="email" value="mahibhoi@gmail.com">
+            </div>
+
+            <div class="col-md-6">
+                <label>Phone Number</label>
+                <input id="phone" class="form-control" type="text" value="7545645425">
+            </div>
+
+            <div class="col-md-6">
+                <label>City / Address</label>
+                <input id="address" class="form-control" type="text" value="Anand">
+            </div>
+
+            <div class="col-md-6">
+                <label>Password</label>
+                <input id="password" class="form-control" type="password" value="123456">
+            </div>
+
+        </div>
+
+        <div class="text-end mt-4">
+            <button class="save-btn" onclick="saveChanges()">Save Changes</button>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+/* ⭐ LIVE IMAGE PREVIEW ⭐ */
+document.getElementById("fileInput").addEventListener("change", function(){
+    const file = this.files[0];
+    if(file){
+        document.getElementById("profileImg").src = URL.createObjectURL(file);
+    }
+});
+
+/* ⭐ UPLOAD PHOTO FUNCTION ⭐ */
+function uploadPhoto(){
+    const file = document.getElementById("fileInput").files[0];
+    if(!file){ alert("Please select a photo first!"); return; }
+
+    let formData = new FormData();
+    formData.append("photo", file);
+
+    fetch("http://127.0.0.1:8000/api/upload-photo/", {        // 🔵 YOUR API
+        method: "POST",
+        body: formData
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert("Photo uploaded successfully!");
+    })
+    .catch(err => alert("Upload failed!"));
+}
+
+/* ⭐ SAVE PROFILE FUNCTION ⭐ */
+function saveChanges(){
+    const details = {
+        name: document.getElementById("fullName").value,
+        email: document.getElementById("email").value,
+        phone: document.getElementById("phone").value,
+        address: document.getElementById("address").value,
+        password: document.getElementById("password").value
+    };
+
+    fetch("http://127.0.0.1:8000/api/update-profile/", {      // 🔵 YOUR API
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify(details)
+    })
+    .then(res => res.json())
+    .then(data => {
+        alert("Profile updated successfully!");
+    })
+    .catch(err => alert("Something went wrong!"));
+}
+</script>
+
+</body>
+</html>

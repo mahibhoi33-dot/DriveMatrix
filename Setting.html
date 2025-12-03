@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings - Car Rental System</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<style>
+body{ background:#eef1f7; }
+/* Sidebar */
+.sidebar {
+    width:230px;
+    height:100vh;
+    background:#212529;
+    position:fixed;
+    color:#fff;
+    padding-top:30px;
+}
+.sidebar h4 { text-align:center; margin-bottom:30px; margin-top: 0px;font-size: 22px;}
+.sidebar a {
+    margin-top:0px;
+    display:block;
+    padding:13px 20px;
+    text-decoration:none;
+    color:#d9d9d9;
+    font-size:16px;
+}
+.sidebar a:hover {
+    background:#343a40;
+    color:#fff;
+}
+.main{ margin-left:240px; padding:20px; }
+
+.topbar{
+    background:#fff; padding:15px; border-radius:12px;
+    box-shadow:0 3px 8px rgba(0,0,0,0.1);
+}
+.section-title{
+    font-size:20px; font-weight:600; margin-top:30px; margin-bottom:15px;
+}
+</style>
+</head>
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h4>User Panel</h4>
+    <a href="Userdashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <a href="My-booking.html"><i class="bi bi-car-front"></i> My Bookings</a>
+    <a href="Notification.html"><i class="bi bi-bell"></i> Notifications</a>
+    <a href="Userpanelprofile.html"><i class="bi bi-person"></i> Profile</a>
+    <a href="Setting.html" style="background:#343a40; color:#fff;"><i class="bi bi-gear"></i> Settings</a>
+    <a href="Logout.html"><i class="bi bi-box-arrow-right"></i> Logout</a>
+</div>
+
+<!-- Main -->
+<div class="main">
+
+    <div class="topbar d-flex justify-content-between align-items-center mb-4">
+        <h4 class="m-0">Settings ⚙️</h4>
+        <img src="D:\Images\d2.jpg" class="rounded-circle" width="40">
+    </div>
+
+    <!-- Change Password -->
+    <h5 class="section-title">Change Password</h5>
+    <div class="card p-3 shadow-sm">
+        <div class="row">
+            <div class="col-md-4"><input type="password" class="form-control" placeholder="Current Password"></div>
+            <div class="col-md-4"><input type="password" class="form-control" placeholder="New Password"></div>
+            <div class="col-md-4"><input type="password" class="form-control" placeholder="Confirm Password"></div>
+        </div>
+        <button class="btn btn-primary mt-3">Update Password</button>
+    </div>
+
+    <!-- Profile Settings -->
+    <h5 class="section-title">Account Settings</h5>
+    <div class="card p-3 shadow-sm">
+        <div class="row g-3">
+            <div class="col-md-4"><input type="text" class="form-control" placeholder="Change Email"></div>
+            <div class="col-md-4"><input type="text" class="form-control" placeholder="Change Phone"></div>
+            <div class="col-md-4">
+                <label class="form-label">Profile Image</label>
+                <input type="file" class="form-control">
+            </div>
+        </div>
+        <button class="btn btn-success mt-3">Save Changes</button>
+    </div>
+
+    <!-- Notifications -->
+    <h5 class="section-title">Notification Preferences</h5>
+    <div class="card p-3 shadow-sm">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" checked>
+            <label class="form-check-label">Email Notifications</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox" checked>
+            <label class="form-check-label">SMS Notifications</label>
+        </div>
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox">
+            <label class="form-check-label">Push Notifications</label>
+        </div>
+    </div>
+
+    <!-- Theme -->
+    <h5 class="section-title">Theme Mode</h5>
+    <div class="card p-3 shadow-sm">
+        <select class="form-select">
+            <option>Light Mode</option>
+            <option>Dark Mode</option>
+        </select>
+    </div>
+
+    <!-- Language -->
+    <h5 class="section-title">Language</h5>
+    <div class="card p-3 shadow-sm">
+        <select class="form-select">
+            <option>English</option>
+            <option>Hindi</option>
+            <option>Gujarati</option>
+        </select>
+    </div>
+
+    <!-- Privacy -->
+    <h5 class="section-title">Privacy Settings</h5>
+    <div class="card p-3 shadow-sm">
+        <div class="form-check">
+            <input class="form-check-input" type="checkbox">
+            <label class="form-check-label">Make my profile private</label>
+        </div>
+    </div>
+
+    <!-- SECURITY - Active Buttons -->
+    <h5 class="section-title">Security</h5>
+    <div class="card p-3 shadow-sm">
+        <button class="btn btn-outline-primary" data-bs-toggle="modal" data-bs-target="#twoStepModal">Enable 2-Step Verification</button>
+        <button class="btn btn-outline-secondary mt-2" data-bs-toggle="modal" data-bs-target="#loginActivityModal">View Login Activity</button>
+    </div>
+
+    <!-- DANGER ZONE -->
+    <h5 class="section-title text-danger">Danger Zone</h5>
+    <div class="card p-3 shadow-sm border-danger">
+        <button class="btn btn-danger" onclick="deleteAccount()">Delete Account Permanently</button>
+    </div>
+
+</div>
+
+<!-- 2-Step Verification Modal -->
+<div class="modal fade" id="twoStepModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-3">
+      <h5 class="mb-2">Enable 2-Step Verification</h5>
+      <p>We will send an OTP to your registered mobile number.</p>
+      <input type="text" class="form-control" placeholder="Enter OTP">
+      <button class="btn btn-primary mt-3">Verify</button>
+    </div>
+  </div>
+</div>
+
+<!-- Login Activity Modal -->
+<div class="modal fade" id="loginActivityModal">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content p-3">
+      <h5 class="mb-2">Recent Login Activity</h5>
+      <ul>
+        <li>Logged in from Chrome - Today</li>
+        <li>Logged in from Edge Browser - 3 days ago</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- Delete Account JS -->
+<script>
+function deleteAccount(){
+    if(confirm("⚠️ Are you sure you want to permanently delete your account?")){
+        alert("Your account has been deleted successfully.");
+        window.location.href = "Logout.html";
+    }
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

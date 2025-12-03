@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Notifications - Car Rental</title>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+
+<style>
+body { background: #eef1f7; }
+
+/* Sidebar */
+.sidebar {
+    width:230px;
+    height:100vh;
+    background:#212529;
+    position:fixed;
+    color:#fff;
+    padding-top:30px;
+}
+.sidebar h4 { text-align:center; margin-bottom:30px; margin-top: 0px;font-size: 22px;}
+.sidebar a {
+    margin-top:0px;
+    display:block;
+    padding:13px 20px;
+    text-decoration:none;
+    color:#d9d9d9;
+    font-size:16px;
+}
+.sidebar a:hover {
+    background:#343a40;
+    color:#fff;
+}
+/* Main */
+.main { margin-left: 240px; padding: 20px; }
+
+/* Notification Box */
+.notify-box {
+    padding: 15px;
+    background: #fff;
+    border-left: 5px solid #0d6efd;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+</style>
+</head>
+
+<body>
+
+<!-- Sidebar -->
+<div class="sidebar">
+    <h4>User Panel</h4>
+    <a href="Userdashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <a href="My-booking.html"><i class="bi bi-car-front"></i> My Bookings</a>
+    
+    <a href="Notification.html" style="background:#343a40; color:#fff;"><i class="bi bi-bell"></i> Notifications</a>
+    <a href="Userpanelprofile.html"><i class="bi bi-person"></i> Profile</a>
+    <a href="Setting.html"><i class="bi bi-gear"></i> Settings</a>
+    <a href="Logout.html" >
+        <i class="bi bi-box-arrow-right"></i> Logout
+    </a>
+</div>
+
+<!-- MAIN -->
+<div class="main">
+
+    <h3 class="mb-4"><i class="bi bi-bell"></i> Notifications</h3>
+
+    <!-- Notification 1 -->
+    <div class="notify-box">
+        <h6><i class="bi bi-check-circle-fill text-success"></i> Booking Confirmed</h6>
+        <p>Your Swift Dzire booking is confirmed for 26 Nov 2025.</p>
+        <small class="text-muted">2 hours ago</small>
+    </div>
+
+    <!-- Notification 2 -->
+    <div class="notify-box">
+        <h6><i class="bi bi-x-circle-fill text-danger"></i> Booking Cancelled</h6>
+        <p>Your Thar booking for 10 Nov 2025 was cancelled.</p>
+        <small class="text-muted">1 day ago</small>
+    </div>
+
+    <!-- Notification 3 -->
+    <div class="notify-box">
+        <h6><i class="bi bi-gift-fill text-primary"></i> New Offer Available</h6>
+        <p>Get 10% OFF on SUV bookings for December!</p>
+        <small class="text-muted">3 days ago</small>
+    </div>
+
+    <!-- Notification 4 -->
+    <div class="notify-box">
+        <h6><i class="bi bi-car-front-fill text-warning"></i> Trip Reminder</h6>
+        <p>Your upcoming trip (Innova Crysta) is tomorrow at 10:00 AM.</p>
+        <small class="text-muted">5 hours ago</small>
+    </div>
+    <div class="notify-box">
+                <h4>Booking Confirmed</h4>
+                <p>Your booking for *Mahindra Thar* has been successfully confirmed.</p>
+                <div class="time">2 hours ago</div>
+            </div>
+
+            <div class="notify-box">
+                <h4>Payment Success</h4>
+                <p>Your payment of ₹3,500 has been received.</p>
+                <div class="time">Yesterday</div>
+            </div>
+
+            <div class="notify-box">
+                <h4>Profile Updated</h4>
+                <p>Your profile information has been successfully updated.</p>
+                <div class="time">2 days ago</div>
+            </div>
+
+</div>
+
+</body>
+</html>
