@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Admin — Manage Drivers</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+<style>
+
+body { background: #eef1f7; font-family: Arial; }
+
+/* ---------------- SIDEBAR ---------------- */
+.sidebar {
+    width: 240px;
+    height: 100vh;
+    background: #212529;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding-top: 25px;
+    color: white;
+}
+
+.sidebar h4 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sidebar a {
+    display: block;
+    padding: 12px 20px;
+    text-decoration: none;
+    color: #d9d9d9;
+    font-size: 16px;
+}
+
+.sidebar a:hover,
+.sidebar a.active {
+    background: #343a40;
+    color: #fff;
+}
+/* Main Area */
+.content-wrap { margin-left: 240px; padding: 25px; }
+
+/* Driver Image */
+.driver-img {
+    width: 60px; height: 55px; border-radius: 6px; object-fit: cover;
+}
+.btn-verify { background: #28a745; color: white; }
+.btn-del { background: #d63031; color: white; }
+</style>
+</head>
+
+<body>
+
+<!-- ---------------- SIDEBAR ---------------- -->
+<div class="sidebar">
+    <h4>Admin Panel</h4>
+
+    <a href="admindashboard.html"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <a href="admin_cars.html"><i class="bi bi-car-front"></i> Manage Cars</a>
+    <a href="bookingform.html"><i class="bi bi-journal-bookmark"></i> Bookings</a>
+    <a class="active" href="admin_manage_drivers.html"><i class="bi bi-person-gear"></i>
+Manage Drivers</a>
+    <a href="customer.html"><i class="bi bi-people"></i> Users</a>
+    <a href="Reviewadmin.html"><i class="bi bi-chat-left-text"></i> Reviews</a>
+    <a href="Payment.html"><i class="bi bi-credit-card"></i> Payments</a>
+    <a href="notificationadmin.html"><i class="bi bi-bell"></i> Notifications</a>
+    <a href="adminpanelprofile.html"><i class="bi bi-person-circle"></i> Profile</a>
+    <a href="settingsadmin.html"><i class="bi bi-gear"></i> Settings</a>
+    <a href="adminlogout.html"><i class="bi bi-box-arrow-right"></i> Logout</a>
+</div>
+
+<!-- Content -->
+<div class="content-wrap">
+    <div class="d-flex justify-content-between mb-3">
+        <h3>Manage Drivers</h3>
+        <button class="btn btn-primary" id="openAddDriver">+ Add Driver</button>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>License</th>
+                    <th>Verified</th>
+                    <th>Available</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody id="driversBody"></tbody>
+        </table>
+    </div>
+</div>
+
+<!-- ADD / EDIT MODAL -->
+<div class="modal fade" id="driverModal" tabindex="-1">
+<div class="modal-dialog modal-dialog-centered">
+<div class="modal-content">
+
+<form id="driverForm">
+
+<div class="modal-header">
+  <h5 class="modal-title">Add / Edit Driver</h5>
+  <button class="btn-close" data-bs-dismiss="modal"></button>
+</div>
+
+<div class="modal-body">
+
+  <input type="hidden" id="driverId">
+
+  <label class="form-label">Full Name</label>
+  <input id="driverName" class="form-control" required>
+
+  <label class="form-label mt-2">Phone</label>
+  <input id="driverPhone" class="form-control" required>
+
+  <label class="form-label mt-2">License No</label>
+  <input id="driverLicense" class="form-control" required>
+
+  <label class="form-label mt-2">Available</label>
+  <select id="driverAvail" class="form-select">
+    <option value="1">Yes</option>
+    <option value="0">No</option>
+  </select>
+
+</div>
+
+<div class="modal-footer">
+  <button class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+  <button class="btn btn-success" type="submit">Save</button>
+</div>
+
+</form>
+
+</div>
+</div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+
+/* DEMO DRIVER DATA (YOUR 13 DRIVERS) */
+
+let drivers = [
+  { id:1, name:"Ravi Patel", phone:"9876543210", license:"MH12AB1234", verified:1, available:1, profile:"D:\\Images\\d1.jpg" },
+  { id:2, name:"Asha Shah", phone:"9123456780", license:"GJ06XY9876", verified:0, available:1, profile:"D:\\Images\\df1.jpg" },
+  { id:3, name:"Krish Kapoor", phone:"8824780980", license:"GJ03AD8789", verified:1, available:1, profile:"D:\\Images\\d2.jpg" },
+  { id:4, name:"Karan Kundra", phone:"9925616240", license:"RJ10CB4567", verified:0, available:1, profile:"D:\\Images\\d3.jpg" },
+  { id:5, name:"Vani Mehta", phone:"6355352442", license:"PG453FD8789", verified:1, available:1, profile:"D:\\Images\\df2.jpg" },
+  { id:6, name:"Ankit Mishra", phone:"9327426118", license:"HY67UR2367", verified:0, available:1, profile:"D:\\Images\\d4.jpg" },
+  { id:7, name:"Jay Shah", phone:"9724418158", license:"GJ35EY1830", verified:1, available:1, profile:"D:\\Images\\d5.jpg" },
+  { id:8, name:"Sonam Kapoor", phone:"6354849958", license:"DE67AG3487", verified:1, available:1, profile:"D:\\Images\\df3.jpg" },
+  { id:9, name:"Kartik Goyenka", phone:"8824759026", license:"WG45FH4577", verified:0, available:1, profile:"D:\\Images\\d6.jpg" },
+  { id:10, name:"Naksh Singhania", phone:"9824221901", license:"FH57FJ3578", verified:0, available:1, profile:"D:\\Images\\d7.jpg" },
+  { id:11, name:"Akshra Maheshvari", phone:"8870466155", license:"SF35JG2723", verified:1, available:1, profile:"D:\\Images\\df4.jpg" },
+  { id:12, name:"Poorab Khana", phone:"9510374490", license:"CE46BF43578", verified:1, available:1, profile:"D:\\Images\\d8.jpg" },
+  { id:13, name:"Disha Vakani", phone:"9725818535", license:"FJ34FV5624", verified:0, available:1, profile:"D:\\Images\\df5.jpg"}
+];
+
+// ================== RENDER FUNCTION ==================
+function renderDrivers(list){
+  const body = document.getElementById("driversBody");
+  body.innerHTML = "";
+
+  list.forEach(d => {
+      body.innerHTML += `
+      <tr>
+          <td><img src="${d.profile}" class="driver-img"></td>
+          <td>${d.name}</td>
+          <td>${d.phone}</td>
+          <td>${d.license}</td>
+          <td>${d.verified ? '<span class="badge bg-success">Verified</span>' : '<span class="badge bg-warning">Not Verified</span>'}</td>
+          <td>${d.available ? "Yes" : "No"}</td>
+
+          <td>
+              <button class="btn btn-sm btn-verify me-1" onclick="toggleVerify(${d.id})">
+                ${d.verified ? "Unverify" : "Verify"}
+              </button>
+
+              <button class="btn btn-sm btn-light me-1" onclick="editDriver(${d.id})">
+                Edit
+              </button>
+
+              <button class="btn btn-sm btn-del" onclick="deleteDriver(${d.id})">
+                Delete
+              </button>
+          </td>
+      </tr>`;
+  });
+}
+renderDrivers(drivers);
+
+// ================== VERIFY/UNVERIFY ==================
+function toggleVerify(id){
+  drivers = drivers.map(d => d.id === id ? {...d, verified: d.verified ? 0 : 1} : d);
+  renderDrivers(drivers);
+}
+
+// ================== DELETE ==================
+function deleteDriver(id){
+    if(confirm("Are you sure?")){
+        drivers = drivers.filter(d => d.id !== id);
+        renderDrivers(drivers);
+    }
+}
+
+// ================== EDIT DRIVER ==================
+const modal = new bootstrap.Modal(document.getElementById("driverModal"));
+
+function editDriver(id){
+  const d = drivers.find(x => x.id === id);
+
+  driverId.value = d.id;
+  driverName.value = d.name;
+  driverPhone.value = d.phone;
+  driverLicense.value = d.license;
+  driverAvail.value = d.available;
+
+  modal.show();
+}
+
+// ================== ADD DRIVER ==================
+document.getElementById("openAddDriver").addEventListener("click",()=>{
+  driverForm.reset();
+  driverId.value = "";
+  modal.show();
+});
+
+// ================== SAVE / UPDATE ==================
+document.getElementById("driverForm").addEventListener("submit", e=>{
+  e.preventDefault();
+
+  let id = driverId.value;
+
+  let obj = {
+    id: id ? Number(id) : Date.now(),
+    name: driverName.value,
+    phone: driverPhone.value,
+    license: driverLicense.value,
+    available: Number(driverAvail.value),
+    verified: id ? drivers.find(d=>d.id==id).verified : 0,
+    profile: "https://via.placeholder.com/70"
+  };
+
+  if(id){
+      drivers = drivers.map(d => d.id == id ? obj : d);
+  } else {
+      drivers.push(obj);
+  }
+
+  modal.hide();
+  renderDrivers(drivers);
+});
+
+</script>
+
+</body>
+</html>
