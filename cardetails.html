@@ -1,0 +1,1187 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Car Rental Management System - Slider</title>
+
+<style>
+/* ---- BASIC ---- */
+*{ margin:0; padding:0; box-sizing:border-box; }
+body{ font-family:Arial, sans-serif; background:#f1f1f1; }
+
+/* ---- TITLE ---- */
+.title{
+    text-align:center;
+    padding:20px;
+    background:#222;
+    color:white;
+    font-size:28px;
+}
+
+/* ---- SLIDER ---- */
+.slider-container{
+    max-width:900px;
+    margin:40px auto;
+    position:relative;
+    overflow:hidden;
+    border-radius:10px;
+    background:#dedede;
+    box-shadow:0 4px 10px rgba(0,0,0,0.5);
+}
+
+.slide{ 
+    display:none; 
+    position:relative; 
+    background:#f8f8f8;
+    padding-bottom:20px;
+}
+
+.slide img{
+    width:100%;
+    height:500px;
+    object-fit:cover;
+    border-bottom:3px solid #ccc;
+}
+
+/* ---- DETAILS CARD ---- */
+.details-box{
+    padding:20px;
+    background:white;
+    margin:20px;
+    border-radius:12px;
+    box-shadow:0 2px 6px rgba(0,0,0,0.15);
+}
+
+.details-title{
+    font-size:26px;
+    margin-bottom:15px;
+    font-weight:bold;
+    color:#333;
+}
+
+.row{
+    display:flex;
+    flex-wrap:wrap;
+    margin-bottom:10px;
+}
+
+.col{
+    width:50%;
+    font-size:17px;
+    padding:5px 0;
+}
+
+.features-box{
+    background:#eef6ff;
+    padding:15px;
+    border-radius:10px;
+    margin-top:15px;
+}
+
+/* ---- BUTTONS ---- */
+.prev, .next{
+    cursor:pointer;
+    position:absolute;
+    top:50%;
+    transform:translateY(-50%);
+    padding:10px;
+    color:white;
+    font-size:40px;
+    user-select:none;
+}
+.prev{ left:10px; }
+.next{ right:10px; }
+.prev:hover, .next:hover{ color:#ffcc00; }
+
+/* ---- DOTS ---- */
+.dots{
+    text-align:center;
+    padding:15px;
+    background:#fff;
+}
+.dot{
+    height:14px;
+    width:14px;
+    margin:5px;
+    background:#bbb;
+    border-radius:50%;
+    display:inline-block;
+    cursor:pointer;
+}
+.dot.active{ background:#ff9900; }
+</style>
+
+
+<h1 class="title">Car Rental Management System</h1>
+
+<div class="slider-container">
+
+    <!-- SLIDE 1 -->
+    <div class="slide">
+        <img src="D:\\Images\\swift_2.jpeg">
+
+        <div class="details-box">
+            <h2 class="details-title">Swift (2024)</h2>
+
+           <div class="row">
+                <div class="col"><b>Brand:</b> Maruti Suzuki</div>
+                <div class="col"><b>Registration:</b> GJ23AB2345</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2024</div>
+                <div class="col"><b>Transmission:</b> Manual</div>
+                <div class="col"><b>Mileage:</b> 22 KM/L</div>
+                <div class="col"><b>Seats:</b> 5</div>
+                <div class="col"><b>Type:</b> Hatchback</div>
+            </div>
+
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Air Conditioning</li>
+                    <li>Power Windows</li>
+                    <li>ABS & Dual Airbags</li>
+                    <li>Bluetooth + USB Support</li>
+                    <li>Rear Parking Sensors</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 2 -->
+    <div class="slide">
+        <img src="D:\\Images\\hyundai-creta.avif">
+
+        <div class="details-box">
+            <h2 class="details-title">Creta (2023)</h2>
+
+            <div class="row">
+                <div class="col"><b>Brand:</b> Hyundai</div>
+                <div class="col"><b>Registration:</b> GJ23CR5521</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2023</div>
+                <div class="col"><b>Transmission:</b> Manual</div>
+                <div class="col"><b>Mileage:</b> 18 KM/L</div>
+                <div class="col"><b>Seats:</b> 5</div>
+                <div class="col"><b>Type:</b> SUV</div>
+            </div>
+
+
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Large 10.25-inch touchscreen infotainment</li>
+                    <li>Panoramic sunroof</li>
+                    <li>Premium dual-tone interior</li>
+                    <li>Electronic Stability Control</li>
+		    <li>Wireless phone Charge</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 3 -->
+    <div class="slide">
+        <img src="D:\\Images\\innova-hycross.webp">
+
+        <div class="details-box">
+            <h2 class="details-title">Innova Crysta (2022)</h2>
+
+           <div class="row">
+                <div class="col"><b>Brand:</b> Toyota</div>
+                <div class="col"><b>Registration:</b> GJ23IC4410</div>
+                <div class="col"><b>Fuel:</b> Diesel</div>
+                <div class="col"><b>Year:</b> 2022</div>
+                <div class="col"><b>Transmission:</b> Manual</div>
+                <div class="col"><b>Mileage:</b> 14 KM/L</div>
+                <div class="col"><b>Seats:</b> 7</div>
+                <div class="col"><b>Type:</b> MUV</div>
+            </div>
+
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Smooth, silent & fuel-efficient hybrid drive</li>
+                    <li>7New modern SUV-style design</li>
+                    <li>Luxury Lounge Seats with Ottoman</li>
+                    <li>Panoramic Sunroof (First time in Innova!)</li>
+		    <li>Automatic Headlamps + Rain-sensing Wipers</li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- SLIDE 4 -->
+    <div class="slide">
+        <img src="D:\\Images\\Baleno.webp">
+
+        <div class="details-box">
+            <h2 class="details-title">Baleno (2023)</h2>
+
+          <div class="row">
+                <div class="col"><b>Brand:</b> Maruti Suzuki</div>
+                <div class="col"><b>Registration:</b> GJ23XY9988</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2023</div>
+                <div class="col"><b>Transmission:</b> Automatic</div>
+                <div class="col"><b>Mileage:</b> 20 KM/L</div>
+                <div class="col"><b>Seats:</b> 5</div>
+                <div class="col"><b>Type:</b> Hatchback</div>
+            </div>
+
+
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Heads-Up Display (HUD)</li>
+                    <li>Touchscreen SmartPlay Pro+</li>
+		    <li>Wireless Android Auto & Apple CarPlay</li>
+		    <li>LED Projector Headlamps</li>
+		    <li>Rear Parking Sensors</li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 5 -->
+    <div class="slide">
+        <img src="D:\\Images\\Altroz_Pic.jpeg">
+
+        <div class="details-box">
+            <h2 class="details-title">Altroz (2023)</h2>
+
+            <div class="row">
+                <div class="col"><b>Brand:</b> Tata</div>
+                <div class="col"><b>Registration:</b> GJ23AL9932</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2023</div>
+                <div class="col"><b>Transmission:</b> Manual</div>
+                <div class="col"><b>Mileage:</b> 21 KM/L</div>
+                <div class="col"><b>Seats:</b> 5</div>
+                <div class="col"><b>Type:</b> Hatchback</div>
+            </div>
+
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>7-inch touchscreen infotainment</li> 
+		    <li>Android Auto + Apple CarPlay</li>
+		    <li>Large boot space: 345 Litres</li>
+		    <li>Strong build quality</li>
+		    <li>Very stable at high speed</li>
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 6 -->
+    <div class="slide">
+        <img src="D:\\Images\\Mahindra-Scorpio.avif">
+
+        <div class="details-box">
+            <h2 class="details-title">Scorpio (2024)</h2>
+
+            <div class="row">
+                <div class="col"><b>Brand:</b> Mahindra</div>
+                <div class="col"><b>Registration:</b> GJ23GH5566</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2024</div>
+                <div class="col"><b>Transmission:</b> Automatic</div>
+                <div class="col"><b>Mileage:</b> 12 KM/L</div>
+                <div class="col"><b>Seats:</b> 7</div>
+                <div class="col"><b>Type:</b> SUV</div>
+            </div>
+
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Bold & Muscular</li>
+                    <li>High stance for better road presence</li>
+                    <li>Bluetooth,USB,AUX support</li>
+		    <li>Strong body-on-frame chassis</li>
+		    <li>Touchscreen infotainment</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- SLIDE 7 -->
+    <div class="slide">
+        <img src="D:\\Images\\Toyota_Fortuner.avif">
+
+        <div class="details-box">
+            <h2 class="details-title">Fortuner (2023)</h2>
+
+	<div class="row">
+                <div class="col"><b>Brand:</b> Toyota</div>
+                <div class="col"><b>Registration:</b> GJ23RT3456</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2023</div>
+                <div class="col"><b>Transmission:</b> Manual</div>
+                <div class="col"><b>Mileage:</b> 14.6 KM/L</div>
+                <div class="col"><b>Seats:</b> 7</div>
+                <div class="col"><b>Type:</b> Premium Hatchback</div>
+            </div>
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Hill Assist control</li>
+                    <li>Reverse Parking Camera+Sensor</li>
+                    <li>Cruise Control</li>
+		    <li>Vehical Stability Control(VSC)</li>
+		    <li>ABS+EBD+Breake Assist</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 8 -->
+    <div class="slide">
+        <img src="D:\\Images\\Eeco.jpg">
+
+        <div class="details-box">
+            <h2 class="details-title">Eeco (2024)</h2>
+
+            <div class="row">
+                <div class="col"><b>Brand:</b> Maruti</div>
+                <div class="col"><b>Registration:</b> GJ23GW9999</div>
+                <div class="col"><b>Fuel:</b> Petrol,Gas</div>
+                <div class="col"><b>Year:</b> 2024</div>
+                <div class="col"><b>Transmission:</b> Automatic</div>
+                <div class="col"><b>Mileage:</b> 19.71 KM/L</div>
+                <div class="col"><b>Seats:</b> 5</div>
+                <div class="col"><b>Type:</b> Van</div>
+            </div>
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Dual Airbags</li>
+		    <li>ABS with EBD</li>
+		    <li>Dual Airbags</li>
+		    <li>Reverse Parking Sensors</li>
+		    <li>Engine Immobilizer</li>
+		</ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 9 -->
+    <div class="slide">
+        <img src="D:\\Images\\Ertiga.jpg">
+
+        <div class="details-box">
+            <h2 class="details-title">Ertiga (2024)</h2>
+
+           <div class="row">
+                <div class="col"><b>Brand:</b> Maruti</div>
+                <div class="col"><b>Registration:</b> GJ23VN3344</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2024</div>
+                <div class="col"><b>Transmission:</b> Manual</div>
+                <div class="col"><b>Mileage:</b> 20.3 KM/L</div>
+                <div class="col"><b>Seats:</b> 7</div>
+                <div class="col"><b>Type:</b> MPV</div>
+            </div>
+
+
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>5-Speed Manual / 6-Speed Automatic</li>
+                    <li>Third row foldable for more boot space</li>
+		    <li>Rear AC vents</li>
+                    <li>Automatic climate control</li>
+                    <li>Projector Headlights</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- SLIDE 10 -->
+    <div class="slide">
+        <img src="D:\\Images\\Breenza.jpg">
+
+        <div class="details-box">
+            <h2 class="details-title">Breenza (2024)</h2>
+
+           <div class="row">
+                <div class="col"><b>Brand:</b> Maruti Suzuki</div>
+                <div class="col"><b>Registration:</b> GJ23JM4455</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2024</div>
+                <div class="col"><b>Transmission:</b> Manual</div>
+                <div class="col"><b>Mileage:</b> 18 KM/L</div>
+                <div class="col"><b>Seats:</b> 5</div>
+                <div class="col"><b>Type:</b> SUV</div>
+            </div>
+
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Air Conditioning</li>
+                    <li>Power Windows</li>
+                    <li>ABS & Dual Airbags</li>
+                    <li>Bluetooth + USB Support</li>
+                    <li>Rear Parking Sensors</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 11 -->
+    <div class="slide">
+        <img src="D:\\Images\\Bolero2.webp" >
+
+        <div class="details-box">
+            <h2 class="details-title">Maruti Baleno (2024)</h2>
+
+            <div class="row">
+                <div class="col"><b>Brand:</b> Mahindra</div>
+                <div class="col"><b>Registration:</b> GJ01SL5577</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2024</div>
+                <div class="col"><b>Transmission:</b> Automatic</div>
+                <div class="col"><b>Mileage:</b> 16 KM/L</div>
+                <div class="col"><b>Seats:</b> 7</div>
+                <div class="col"><b>Type:</b> SUV</div>
+            </div>
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                   <li>Heads-Up Display (HUD)</li>
+		   <li>Touchscreen SmartPlay Pro+</li>
+		   <li>Wireless Android Auto & Apple CarPlay</li>
+		   <li>LED Projector Headlamps</li>
+		   <li>Rear Parking Sensors</li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 12 -->
+    <div class="slide">
+        <img src="D:\\Images\\Hyundai_Venue.webp">
+
+        <div class="details-box">
+            <h2 class="details-title">Hyundai Venue (2023)</h2>
+
+           <div class="row">
+                <div class="col"><b>Brand:</b> Hyundai</div>
+                <div class="col"><b>Registration:</b> GJ23AL8976</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2023</div>
+                <div class="col"><b>Transmission:</b> Manual</div>
+                <div class="col"><b>Mileage:</b> 18.5 KM/L</div>
+                <div class="col"><b>Seats:</b> 5</div>
+                <div class="col"><b>Type:</b> Compact SUV</div>
+            </div>
+
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                   <li>Touchscreen Inforainment System</li>
+ 		   <li>Wireless Android Auto/Apple CarPlay</li>
+		   <li>Rear Parking Camera</li>
+		   <li>Automatic Headlamps</li>
+		   <li>Cruise Control</li>
+
+
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- SLIDE 13 -->
+    <div class="slide">
+        <img src="D:\\Images\\maruti_suzuki_jimny.jpg">
+
+        <div class="details-box">
+            <h2 class="details-title">Maruti Suzuki_jimny (2023)</h2>
+
+            <div class="row">
+                <div class="col"><b>Brand:</b> Suzuki</div>
+                <div class="col"><b>Registration:</b> GJ01DZ8877</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2023</div>
+                <div class="col"><b>Transmission:</b> Manual</div>
+                <div class="col"><b>Mileage:</b> 15 KM/L</div>
+                <div class="col"><b>Seats:</b> 4</div>
+                <div class="col"><b>Type:</b> SUV</div>
+            </div>
+
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Strong body-on-frame platform</li>
+		    <li>Hill Hold & =Hill Descent Control</li>
+		    <li>Black cladding for off-road look</li>
+		    <li>Two-tone colour options (Black roof)</li>
+ 		    <li>Wireless Android Auto & Apple CarPlay</li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 14 -->
+    <div class="slide">
+        <img src= "D:\\Images\\Kia-seltos.jpg">
+
+        <div class="details-box">
+            <h2 class="details-title">Kia Seltos (2023)</h2>
+
+            <div class="row">
+                <div class="col"><b>Brand:</b> Kia</div>
+                <div class="col"><b>Registration:</b> GJ01WR1122</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2023</div>
+                <div class="col"><b>Transmission:</b> Manual</div>
+                <div class="col"><b>Mileage:</b> 17 KM/L</div>
+                <div class="col"><b>Seats:</b> 5</div>
+                <div class="col"><b>Type:</b> SUV</div>
+            </div>
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Spacious cabin with good rear seat comfort</li>
+		    <li>Fully digital instrument cluster</li>
+		    <li>Ventilated front seats</li>
+		    <li>Premium leatherette upholstery</li>
+		    <li>Multiple USB & fast-charging ports</li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 15 -->
+    <div class="slide">
+        <img src="D:\\Images\\Maruti-Suzuki-Alto.avif">
+
+        <div class="details-box">
+            <h2 class="details-title">Alto (New) (2024)</h2>
+
+            <div class="row">
+                <div class="col"><b>Brand:</b> Maruti</div>
+                <div class="col"><b>Registration:</b> GJ23PN3344</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2024</div>
+                <div class="col"><b>Transmission:</b> Manual</div>
+                <div class="col"><b>Mileage:</b> 22 KM/L</div>
+                <div class="col"><b>Seats:</b> 5</div>
+                <div class="col"><b>Type:</b> Hatchback</div>
+            </div>
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Sunroof</li>
+                    <li>Android Auto + CarPlay</li>
+                    <li>Reverse Camera</li>
+                    <li>Projector Headlights</li>
+		    <li>Touchscreen Inforainment System</li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- SLIDE 16 -->
+    <div class="slide">
+        <img src="D:\\Images\\wagonr-waltz.webp">
+
+        <div class="details-box">
+            <h2 class="details-title">Wagon R (2024)</h2>
+
+           <div class="row">
+                <div class="col"><b>Brand:</b> Maruti</div>
+                <div class="col"><b>Registration:</b> GJ23PN3344</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2024</div>
+                <div class="col"><b>Transmission:</b> Manual</div>
+                <div class="col"><b>Mileage:</b> 20 KM/L</div>
+                <div class="col"><b>Seats:</b> 5</div>
+                <div class="col"><b>Type:</b> Premium Hatchback</div>
+            </div>
+
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Speed alert & seatbelt reminder</li>
+		    <li>Touchscreen infotainment system (SmartPlay Studio)</li>
+		    <li>Steering-mounted audio controls</li>
+		    <li>Dual-tone interior</li>
+		    <li>Rear seat 60:40 split</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 17 -->
+    <div class="slide">
+        <img src="D:\\Images\\Maruti_Dzire.jpg">
+
+        <div class="details-box">
+            <h2 class="details-title">Dzire (2024)</h2>
+
+            <div class="row">
+                <div class="col"><b>Brand:</b> Maruti</div>
+                <div class="col"><b>Registration:</b> GJ01PN3344</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2024</div>
+                <div class="col"><b>Transmission:</b> Manual</div>
+                <div class="col"><b>Mileage:</b> 21 KM/L</div>
+                <div class="col"><b>Seats:</b> 5</div>
+                <div class="col"><b>Type:</b> Sedan</div>
+            </div>
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Stylish dual-tone alloy wheels</li>
+                    <li>Body-colored ORVMs with turn indicators</li>
+                    <li>Compact sedan design with smooth curves</li>
+                    <li>Steering-mounted audio controls</li>
+		    <li>Comfortable seating with good legroom</li>
+		</ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 18 -->
+    <div class="slide">
+        <img src="D:\\Images\\TataPunch.jpg">
+
+        <div class="details-box">
+            <h2 class="details-title">Punch (2024)</h2>
+
+           <div class="row">
+                <div class="col"><b>Brand:</b> Tata</div>
+                <div class="col"><b>Registration:</b> GJ01PN3344</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2024</div>
+                <div class="col"><b>Transmission:</b> Manual</div>
+                <div class="col"><b>Mileage:</b> 18 KM/L</div>
+                <div class="col"><b>Seats:</b> 5</div>
+                <div class="col"><b>Type:</b> SUV</div>
+            </div>
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Reverse Parking Sensors & Rear Camera</li>
+                    <li>Android Auto & Apple CarPlay</li>
+                    <li>Automatic Climate Control</li>
+                    <li>Push Button Start/Stop</li>
+		    <li>Height Adjustable Driver Seat</li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- SLIDE 19 -->
+    <div class="slide">
+        <img src= "D:\\Images\\Thar.jpg">
+
+        <div class="details-box">
+            <h2 class="details-title">Thar (2024)</h2>
+
+            <div class="row">
+                <div class="col"><b>Brand:</b> Mahindra</div>
+                <div class="col"><b>Registration:</b> GJ01TR9988</div>
+                <div class="col"><b>Fuel:</b> Diesel</div>
+                <div class="col"><b>Year:</b> 2024</div>
+                <div class="col"><b>Transmission:</b> Manual</div>
+                <div class="col"><b>Mileage:</b> 14 KM/L</div>
+                <div class="col"><b>Seats:</b> 4</div>
+                <div class="col"><b>Type:</b> SUV</div>
+            </div>
+
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Removable hard-top, soft-top & convertible top options</li>
+                    <li>Touchscreen infotainment </li>
+                    <li>Android Auto & Apple CarPlay</li>
+                    <li>Bluetooth + USB Support</li>
+                    <li>Steering-mounted controls</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 20 -->
+    <div class="slide">
+        <img src= "D:\\Images\\virtus.webp">
+
+        <div class="details-box">
+            <h2 class="details-title">Virtus (2023)</h2>
+
+            <div class="row">
+                <div class="col"><b>Brand:</b> Volkswagen</div>
+                <div class="col"><b>Registration:</b> GJ23VT2233</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2023</div>
+                <div class="col"><b>Transmission:</b> Automatic</div>
+                <div class="col"><b>Mileage:</b> 16 KM/L</div>
+                <div class="col"><b>Seats:</b> 5</div>
+                <div class="col"><b>Type:</b> Sedan</div>
+            </div>
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Sporty GT tuning & performance-oriented drive</li>
+                    <li>Tyre Pressure Monitoring System (TPMS)</li>
+                    <li>Cylinder deactivation for better mileage</li>
+                    <li>Premium dual-tone dashboard</li>
+		    <li>Keyless entry & push-button start</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 21 -->
+    <div class="slide">
+        <img src= "D:\\Images\\Marazzo-front-studio.jpg">
+
+        <div class="details-box">
+            <h2 class="details-title">Marazzo (2023)</h2>
+
+            <div class="row">
+                <div class="col"><b>Brand:</b> Mahindra</div>
+                <div class="col"><b>Registration:</b> GJ23MZ4455</div>
+                <div class="col"><b>Fuel:</b> Diesel</div>
+                <div class="col"><b>Year:</b> 2023</div>
+                <div class="col"><b>Transmission:</b> Manual</div>
+                <div class="col"><b>Mileage:</b> 17.3 KM/L</div>
+                <div class="col"><b>Seats:</b> 7</div>
+                <div class="col"><b>Type:</b> MPV</div>
+            </div>
+
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Smooth & refined diesel performance</li>
+                    <li>Premium dual-tone dashboard</li>
+                    <li>Strong body frame inspired by airplane fuselage design</li>
+                    <li>Projector headlamps</li>
+		    <li>Touchscreen infotainment system</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- SLIDE 22 -->
+    <div class="slide">
+        <img src="D:\\Images\\Verna.jpg">
+
+        <div class="details-box">
+            <h2 class="details-title">Verna (2024)</h2>
+
+            <div class="row">
+                <div class="col"><b>Brand:</b> Hyundai</div>
+                <div class="col"><b>Registration:</b> GJ01VN6655</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2024</div>
+                <div class="col"><b>Transmission:</b> Automatic</div>
+                <div class="col"><b>Mileage:</b> 18.6 KM/L</div>
+                <div class="col"><b>Seats:</b> 5</div>
+                <div class="col"><b>Type:</b> Sedan</div>
+            </div>
+
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Wireless Android Auto / Apple CarPlay</li>
+                    <li>Electric sunroof (top model)</li>
+                    <li>ABS & Dual Airbags</li>
+                    <li>Bluetooth + USB Support</li>
+                    <li>Premium dual-tone interior</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 23 -->
+    <div class="slide">
+        <img src="D:\\Images\\2003-mr2-spyder-2-1599224809.avif">
+
+        <div class="details-box">
+            <h2 class="details-title">Toyota MR2 Spyder (2000) </h2>
+
+            <div class="row">
+                <div class="col"><b>Brand:</b> Toyota</div>
+                <div class="col"><b>Registration:</b> GJ01SP2000</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2000</div>
+                <div class="col"><b>Transmission:</b> Manual</div>
+                <div class="col"><b>Mileage:</b> 11.5 KM/L</div>
+                <div class="col"><b>Seats:</b> 2</div>
+                <div class="col"><b>Type:</b> Sports</div>
+            </div>
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <liAir conditionnings</li>
+                    <li>Touchscreen Infotainment</li>
+                    <li>Basic strong behind seats</li>
+                    <li>Aanti-lock braking system(ABS)</li>
+		    <li>Ride chassis wih reinforced side impact protection</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 24 -->
+    <div class="slide">
+        <img src="D:\\Images\\2025-Toyota-Crown-Signia.jpg">
+
+        <div class="details-box">
+            <h2 class="details-title">Crown Signia (2024) </h2>
+
+           <div class="row">
+                <div class="col"><b>Brand:</b> Toyota</div>
+                <div class="col"><b>Registration:</b> GJ01SP2000</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2024</div>
+                <div class="col"><b>Transmission:</b> Manual</div>
+                <div class="col"><b>Mileage:</b> 16.5 KM/L</div>
+                <div class="col"><b>Seats:</b> 5</div>
+                <div class="col"><b>Type:</b> Hybrid SUV </div>
+            </div>
+
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Hands-free power-liftgate</li>
+                    <li>Lether-termmed seats</li>
+                    <li>Standarad hynrid-AWD powertrain+electronically controlled system</li>
+                    <li>digital cockpit,connectivity</li>
+		    <li>Projector Headlights</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- SLIDE 25 -->
+    <div class="slide">
+        <img src="D:\\Images\\tata-safari.webp">
+
+        <div class="details-box">
+            <h2 class="details-title">Tata Safari (2024)</h2>
+
+           <div class="row">
+                <div class="col"><b>Brand:</b> Tata</div>
+                <div class="col"><b>Registration:</b> GJ01SF7654</div>
+                <div class="col"><b>Fuel:</b> Diesel</div>
+                <div class="col"><b>Year:</b> 2024</div>
+                <div class="col"><b>Transmission:</b> Automatic</div>
+                <div class="col"><b>Mileage:</b> 16.3 KM/L</div>
+                <div class="col"><b>Seats:</b> 7</div>
+                <div class="col"><b>Type:</b> SUV</div>
+            </div>
+
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Refined, powerful & highway-friendly performance</li>
+                    <li>Roof rails with Safari branding</li>
+                    <li>ABS & Dual Airbags</li>
+                    <li>Bluetooth + USB Support</li>
+                    <li>Panoramic sunroof (higher variants)</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 26 -->
+    <div class="slide">
+        <img src= "D:\\Images\\range_rover.jpg">
+
+        <div class="details-box">
+            <h2 class="details-title">Range Rover (2024)</h2>
+
+            <div class="row">
+                <div class="col"><b>Brand:</b> Land Rover</div>
+                <div class="col"><b>Registration:</b> GJ01RR9090</div>
+                <div class="col"><b>Fuel:</b> Diesel</div>
+                <div class="col"><b>Year:</b> 2024</div>
+                <div class="col"><b>Transmission:</b> Automatic</div>
+                <div class="col"><b>Mileage:</b> 10 KM/L</div>
+                <div class="col"><b>Seats:</b> 5</div>
+                <div class="col"><b>Type:</b> Luxury SUV</div>
+            </div>
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Meridian Premium Sound System</li>
+                    <li>Touchscreen Infotainment</li>
+                    <li>Premium Ambient Lighting (configurable)</li>
+                    <li>Smart Key</li>
+		    <li>Ventilated & Massaging Seats/li>
+
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 27 -->
+    <div class="slide">
+        <img src= "D:\\Images\\rolls_royce.webp">
+
+        <div class="details-box">
+            <h2 class="details-title">Rolls Roylce Ghost (2024)</h2>
+
+            <div class="row">
+                <div class="col"><b>Brand:</b> Rolls Roylce</div>
+                <div class="col"><b>Registration:</b> GJ01RR9090</div>
+                <div class="col"><b>Fuel:</b> Diesel</div>
+                <div class="col"><b>Year:</b> 2024</div>
+                <div class="col"><b>Transmission:</b> Automatic</div>
+                <div class="col"><b>Mileage:</b> 6 KM/L</div>
+                <div class="col"><b>Seats:</b> 5</div>
+                <div class="col"><b>Type:</b> Luxury Sedan</div>
+            </div>
+
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Luxury+Performane </li>
+                    <li>Android Auto + CarPlay</li>
+                    <li>Rear-seats enteratintment improvement</li>
+                    <li>Projector Headlights</li>
+		    <li>Premium look and materials</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- SLIDE 28 -->
+    <div class="slide">
+        <img src= "D:\\Images\\G-wagoan.avif">
+
+        <div class="details-box">
+            <h2 class="details-title">G-Wagon (2024)</h2>
+
+           <div class="row">
+                <div class="col"><b>Brand:</b> Mercedes</div>
+                <div class="col"><b>Registration:</b> GJ23RR9090</div>
+                <div class="col"><b>Fuel:</b> Diesel</div>
+                <div class="col"><b>Year:</b> 2024</div>
+                <div class="col"><b>Transmission:</b> Automatic</div>
+                <div class="col"><b>Mileage:</b> 12 KM/L</div>
+                <div class="col"><b>Seats:</b> 5</div>
+                <div class="col"><b>Type:</b> Luxury SUV</div>
+            </div>
+
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Air Conditioning</li>
+                    <li>Power Windows</li>
+                    <li>ABS & Dual Airbags</li>
+                    <li>Bluetooth + USB Support</li>
+                    <li>Rear Parking Sensors</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 29 -->
+    <div class="slide">
+        <img src="D:\\Images\\Two door jeep.jpg">
+
+        <div class="details-box">
+            <h2 class="details-title">Wrangler 2-Door (2024)</h2>
+
+            <div class="row">
+                <div class="col"><b>Brand:</b> Jeep</div>
+                <div class="col"><b>Registration:</b> GJ01RR9090</div>
+                <div class="col"><b>Fuel:</b> Diesel</div>
+                <div class="col"><b>Year:</b> 2024</div>
+                <div class="col"><b>Transmission:</b> Automatic</div>
+                <div class="col"><b>Mileage:</b> 9 KM/L</div>
+                <div class="col"><b>Seats:</b> 4</div>
+                <div class="col"><b>Type:</b> Off-Road SUV</div>
+            </div>
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>High ground clearance for rough terrain</li>
+                    <li>Touchscreen Infotainment</li>
+                    <li>Water  wading capability</li>
+                    <li>Looking front & rear differntiants</li>
+		    <li2.0L Turbo Petrol Engine</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- SLIDE 30 -->
+    <div class="slide">
+        <img src= "D:\\Images\\force-urbania.jpg">
+
+        <div class="details-box">
+            <h2 class="details-title">Force Urbania (2024)</h2>
+
+            <div class="row">
+                <div class="col"><b>Brand:</b> Force Motors</div>
+                <div class="col"><b>Registration:</b> GJ23UR9988</div>
+                <div class="col"><b>Fuel:</b> Diesel</div>
+                <div class="col"><b>Year:</b> 2024</div>
+                <div class="col"><b>Transmission:</b> Manual</div>
+                <div class="col"><b>Mileage:</b> 15 KM/L</div>
+                <div class="col"><b>Seats:</b> 9</div>
+                <div class="col"><b>Type:</b> MPV</div>
+            </div>
+
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>Touchscreen Sunroof</li>
+                    <li>Android Auto + CarPlay</li>
+                    <li>Reverse Camera</li>
+                    <li>Projector Headlights</li>
+		    <li>Looking front & rear differntiants</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- SLIDE 31 -->
+    <div class="slide">
+        <img src="D:\\Images\\forcetraveller.webp">
+
+        <div class="details-box">
+            <h2 class="details-title">Force Traveller 17-Seater (2023)</h2>
+
+           <div class="row">
+                <div class="col"><b>Brand:</b> Force Motors</div>
+                <div class="col"><b>Registration:</b> GJ01TV4567</div>
+                <div class="col"><b>Fuel:</b> Petrol</div>
+                <div class="col"><b>Year:</b> 2023</div>
+                <div class="col"><b>Transmission:</b> Manual</div>
+                <div class="col"><b>Mileage:</b> 13 KM/L</div>
+                <div class="col"><b>Seats:</b> 17</div>
+                <div class="col"><b>Type:</b> Van</div>
+            </div>
+
+            <h3>Features</h3>
+            <div class="features-box">
+                <ul>
+                    <li>High roof spacious cabin</li>
+                    <li>Good mileage for a large van</li>
+                    <li>ABS & Dual Airbags</li>
+                    <li>Bluetooth + USB Support</li>
+                    <li>Rear Parking Sensors</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    
+
+    <!-- Next / Prev -->
+     <span class="prev" onclick="changeSlide(-1)">❮</span>
+    <span class="next" onclick="changeSlide(1)">❯</span>
+<a class="prev" onclick="changeSlide(-1)">&#10094;</a>
+<a class="next" onclick="changeSlide(1)">&#10095;</a>
+
+
+</div>
+
+<div class="dots">
+    <span class="dot" onclick="goToSlide(1)"></span>
+    <span class="dot" onclick="goToSlide(2)"></span>
+    <span class="dot" onclick="goToSlide(3)"></span>
+    <span class="dot" onclick="goToSlide(4)"></span>
+    <span class="dot" onclick="goToSlide(5)"></span>
+    <span class="dot" onclick="goToSlide(6)"></span>
+    <span class="dot" onclick="goToSlide(7)"></span>
+    <span class="dot" onclick="goToSlide(8)"></span>
+    <span class="dot" onclick="goToSlide(9)"></span>
+    <span class="dot" onclick="goToSlide(10)"></span>
+    <span class="dot" onclick="goToSlide(11)"></span>
+    <span class="dot" onclick="goToSlide(12)"></span>
+
+
+</div>
+<h2 id="carName"></h2>
+<img id="carImage" width="300">
+
+
+
+<script>
+let slideIndex = 1;
+showSlide(slideIndex);
+
+function changeSlide(n){
+    showSlide(slideIndex += n);
+}
+
+function goToSlide(n){
+    showSlide(slideIndex = n);
+}
+
+function showSlide(n){
+    let slides = document.getElementsByClassName("slide");
+    let dots = document.getElementsByClassName("dot");
+
+    if(n > slides.length){ slideIndex = 1; }
+    if(n < 1){ slideIndex = slides.length; }
+
+    for(let i=0; i<slides.length; i++){
+        slides[i].style.display = "none";
+    }
+    for(let i=0; i<dots.length; i++){
+        dots[i].className = dots[i].className.replace(" active", "");
+    }
+
+    slides[slideIndex-1].style.display = "block";
+    dots[slideIndex-1].className += " active";
+}
+document.addEventListener("DOMContentLoaded", function () {
+    const id = localStorage.getItem("selectedCarId");
+    const car = cars.find(c => c.id == id);
+
+    if (car) {
+        document.getElementById("carName").innerText = car.name;
+        document.getElementById("carImage").src = car.image;
+        document.getElementById("carFuel").innerText = car.fuel;
+        document.getElementById("carSeats").innerText = car.seats;
+        document.getElementById("carPrice").innerText = car.price;
+    }
+});
+
+
+setInterval(() => {
+    changeSlide(1);
+}, 5000);
+</script>
+
+</body>
+</html>

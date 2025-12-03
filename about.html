@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Us — DriveMatrix</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+<style>
+
+    :root{
+      --accent-1: #1D976C;
+      --accent-2: #93F9B9;
+      --dark: #07263a;
+      --card: rgba(255,255,255,0.96);
+    }
+
+/* FULL SCREEN WIDTH FIX */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* make bootstrap container fully responsive width */
+.container, .container-fluid {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+}
+
+/* Full width rows */
+.row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  width: 100% !important;
+}
+
+/* ADDING FIXED NAVBAR */
+.nav-bg {
+  background: rgba(0,0,0,0.18);
+  backdrop-filter: blur(6px);
+  padding: 10px 0;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 999;
+}
+
+/* Prevent content going under navbar */
+body {
+  padding-top: 70px !important;
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(#1D976C);
+  color: var(--dark);
+}
+
+/* HERO & OTHER CSS */
+
+    .nav-brand { color: white; font-weight:700; }
+
+    .hero {
+      padding: 60px 0;
+      color: white;
+    }
+    .hero-card {
+      background: linear-gradient(90deg, rgba(255,255,255,0.06), rgba(255,255,255,0.03));
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    }
+
+    .section {
+      padding: 48px 0;
+    }
+    .card-white {
+      background: var(--card);
+      border-radius: 12px;
+      padding: 18px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+    }
+
+    .value-box {
+      border-radius:10px;
+      padding:18px;
+      background: white;
+      text-align:center;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    }
+
+    .team-photo {
+      width:100%;
+      height:500px;
+      object-fit:cover;
+      border-radius:10px;
+    }
+    .role { color:#6b7280; font-size:14px; }
+
+    .timeline {
+      position: relative;
+      padding-left: 30px;
+      margin-top: 10px;
+    }
+    .timeline:before {
+      content: "";
+      position: absolute;
+      left: 12px;
+      top: 0;
+      bottom: 0;
+      width: 4px;
+      background: linear-gradient(180deg,var(--accent-1),var(--accent-2));
+      border-radius: 4px;
+    }
+    .timeline-item {
+      position: relative;
+      margin-bottom: 24px;
+      padding-left: 24px;
+    }
+    .timeline-item:before {
+      content: "";
+      position: absolute;
+      left: -6px;
+      top: 6px;
+      width: 16px;
+      height: 16px;
+      background: white;
+      border: 4px solid #fff;
+      border-radius:50%;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+    }
+
+    footer { padding:24px 0; color:white; text-align:center; }
+
+    @media (max-width:768px){
+      .hero { text-align:center; }
+      .timeline { padding-left: 10px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR (fixed now) -->
+  <nav class="nav-bg">
+    <div class="container d-flex justify-content-between align-items-center">
+      <div class="nav-brand">🚗 DriveMatrix</div>
+      <div>
+        <a href="home.html" class="btn btn-sm btn-outline-light me-2">Home</a>
+        <a href="cardetails.html" class="btn btn-sm btn-outline-light me-2">Cars</a>
+        <a  href="faq.html" class="btn btn-sm btn-outline-light me-2">FAQ</a>
+        <a  href="review.html" class="btn btn-sm btn-outline-light me-2">Reviews</a>
+        <a  href="privacy.html" class="btn btn-sm btn-outline-light me-2">Privacy Policy</a>
+        <a  href="tearms.html" class="btn btn-sm btn-outline-light me-2">Terms</a>
+        <a href="support.html" class="btn btn-sm btn-light">Contact</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-7">
+          <div class="hero-card">
+            <h1 class="display-6 fw-bold">About DriveMatrix</h1>
+            <p class="mb-3">DriveMatrix is a modern, reliable, and user-friendly car rental platform.</p>
+            <div class="d-flex gap-2">
+              <a href="compare.html" class="btn btn-light">Compare Cars</a>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-5 text-center mt-4 mt-lg-0">
+          <div class="card-white">
+            <h5 class="text-black">Quick Facts</h5>
+            <div class="d-flex justify-content-between">
+              <div class="text-center">
+                <h4 class="text-black">200+</h4>
+                <small class="text-muted">Cars</small>
+              </div>
+              <div class="text-center">
+                <h4 class="text-black">50k+</h4>
+                <small class="text-muted">Bookings</small>
+              </div>
+              <div class="text-center">
+                <h4 class="text-black">4.7★</h4>
+                <small class="text-muted">Rating</small>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSION & VISION -->
+  <section class="section">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-md-6">
+          <div class="card-white h-100">
+            <h4>Our Mission</h4>
+            <p>Our mission is to provide a good and safe car rental service that is simple, affordable, and transparent.</p>
+            <ul>
+              <li>Quick online booking</li>
+              <li>Transparent pricing</li>
+              <li>Verified drivers & clean vehicles</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="col-md-6">
+          <div class="card-white h-100">
+            <h4>Our Vision</h4>
+            <p>We want to become an innovative platform where travel plans are stress-free and enjoyable.</p>
+            <p><strong>Vision:</strong> Regional leader in digital car rental services with highest customer trust.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section class="section" style="background: rgba(255,255,255,0.03);">
+    <div class="container">
+      <h3 class="text-white mb-4">Our Core Values</h3>
+      <div class="row g-3">
+        <div class="col-md-3">
+          <div class="value-box">
+            <h5>Trust</h5>
+            <p class="small text-muted">Verified drivers & secure payments.</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="value-box">
+            <h5>Convenience</h5>
+            <p class="small text-muted">Easy booking & 24/7 support.</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="value-box">
+            <h5>Quality</h5>
+            <p class="small text-muted">Well-maintained vehicles.</p>
+          </div>
+        </div>
+        <div class="col-md-3">
+          <div class="value-box">
+            <h5>Transparency</h5>
+            <p class="small text-muted">No hidden charges.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TEAM -->
+<section class="section">
+  <div class="container">
+    <h3 class="mb-3">Meet Our Team</h3>
+
+    <div class="row g-3">
+
+      <div class="col-md-4">
+        <div class="card-white text-center p-3 h-100">
+          <img src="D:\Images\p5.jpg" class="team-photo" alt="Team">
+          <h5 class="mt-2 mb-0">Mahi Bhoi</h5>
+          <div class="role">Founder & CEO</div>
+          <p class="small text-muted mt-2">Driving vision and product direction.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card-white text-center p-3 h-100">
+          <img src="D:\Images\p4.jpg" class="team-photo" alt="Team">
+          <h5 class="mt-2 mb-0">Janvi Patel</h5>
+          <div class="role">Head - Operations</div>
+          <p class="small text-muted mt-2">Managing fleet & logistics.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card-white text-center p-3 h-100">
+          <img src="D:\Images\p6.jpg" class="team-photo" alt="Team">
+          <h5 class="mt-2 mb-0">Vaghela Mansi</h5>
+          <div class="role">Head - Customer Support</div>
+          <p class="small text-muted mt-2">24/7 support and quality checks.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card-white text-center p-3 h-100">
+          <img src="D:\Images\p2.jpg" class="team-photo" alt="Team">
+          <h5 class="mt-2 mb-0">Aayushi Devda</h5>
+          <div class="role">Head - Tech</div>
+          <p class="small text-muted mt-2">Platform & AI features.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card-white text-center p-3 h-100">
+          <img src="D:\Images\p7.jpg" class="team-photo" alt="Team">
+          <h5 class="mt-2 mb-0">Mittal Macwan</h5>
+          <div class="role">Senior Developer</div>
+          <p class="small text-muted mt-2">Infrastructure & backend systems.</p>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card-white text-center p-3 h-100">
+          <img src="D:\Images\p3.jpg" class="team-photo" alt="Team">
+          <h5 class="mt-2 mb-0">Patel Tisha</h5>
+          <div class="role">UI/UX Designer</div>
+          <p class="small text-muted mt-2">Front-end experience & design.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+  <!-- TIMELINE / HISTORY -->
+  <section class="section">
+    <div class="container">
+      <h3 class="mb-4">Our Journey</h3>
+
+      <div class="timeline p-3">
+        <div class="timeline-item">
+          <h5 class="mb-1">2023 — Founded</h5>
+          <p class="small text-muted">DriveMatrix started with 10 cars and a small team in Anand.</p>
+        </div>
+
+        <div class="timeline-item">
+          <h5 class="mb-1">2024 — Expansion</h5>
+          <p class="small text-muted">Expanded fleet to 50 cars and introduced driver-on-demand services.</p>
+        </div>
+
+        <div class="timeline-item">
+          <h5 class="mb-1">2025 — Digital Platform</h5>
+          <p class="small text-muted">Launched web platform with online booking & instant confirmations.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section text-center">
+    <div class="container">
+      <div class="card-white p-4 mx-auto" style="max-width:800px;">
+        <h4>Ready to travel with DriveMatrix?</h4>
+        <p class="text-muted">Book now and enjoy clean, verified vehicles with trusted drivers.</p>
+        <div class="d-flex justify-content-center gap-2">
+          <a href="cardetails.html" class="btn btn-primary">Explore Cars</a>
+          <a href='booking-form.html' class="btn btn-outline-primary">Book Now</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <small>© 2025 DriveMatrix — All rights reserved</small>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Optional JS: small interactivity -->
+  <script>
+    // Example: open team modal or click handlers (expand later)
+    // This file is static frontend – connect APIs as needed.
+  </script>
+</body>
+</html>

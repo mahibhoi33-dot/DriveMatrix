@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Car Rental — Home</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    /* FULL SCREEN WIDTH FIX */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* make bootstrap container fully responsive width */
+.container, .container-fluid {
+  max-width: 100% !important;
+  width: 100% !important;
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+}
+
+/* Full width rows */
+.row {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  width: 100% !important;
+}
+
+    :root{
+      --accent1: #1D976C;
+      --accent2: #93F9B9;
+      --card-bg: rgba(255,255,255,0.95);
+    }
+    
+    body{
+      margin:0;
+      font-family: "Poppins", sans-serif;
+      background: linear-gradient(135deg,#0f2c4f 0%, #1b7a90 50%, #92e0c6 100%);
+      background-size: 400% 400%;
+      color: #07263a;
+      -webkit-font-smoothing:antialiased;
+    }
+
+    /* NAVBAR */
+    .navbar-brand { font-weight:700; letter-spacing:0.3px; color:white !important; }
+    .nav-bg { background: rgba(0,0,0,0.18); backdrop-filter: blur(6px); }
+
+    /* HERO */
+    .hero {
+      padding: 60px 0;
+      color: white;
+      text-align: left;
+    }
+    .hero .search-card {
+      background: rgba(255,255,255,0.12);
+      padding:18px;
+      border-radius:12px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.18);
+      backdrop-filter: blur(6px);
+    }
+
+    /* CARS */
+    .car-card {
+      background: var(--card-bg);
+      border-radius: 12px;
+      padding: 12px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+      transition: transform 0.18s;
+    }
+    .car-card:hover { transform: translateY(-6px); }
+
+    .price-tag {
+      background: linear-gradient(90deg,var(--accent1),var(--accent2));
+      color:white;
+      padding:6px 10px;
+      border-radius:10px;
+      font-weight:700;
+    }
+
+    /* OFFERS */
+    .offer-card { background: rgba(255,255,255,0.92); padding:16px; border-radius:12px; box-shadow:0 8px 18px rgba(0,0,0,0.08); }
+
+    /* TESTIMONIAL */
+    .testi-card { background: rgba(255,255,255,0.95); padding:16px; border-radius:12px; }
+
+    footer { background: rgba(0,0,0,0.12); color: #fff; padding:18px 0; margin-top:40px; }
+
+    @media (max-width:767px){
+      .hero { text-align:center; }
+    }
+#contact .card-glass {
+    background: #f3f6f7 !important;
+}
+/* Chatbot Button */
+.chatbot-btn {
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 9999;
+   }
+.chatbot-btn button {
+   background: linear-gradient(#0d6efd);
+    color: white;
+    border: none;
+    width: 60px;
+    height: 60px;
+    font-size: 27px;
+    border-radius: 50%;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* Chat Window */
+.chat-window {
+    position: fixed;
+    bottom: 95px;
+    right: 25px;
+    width: 320px;
+    height: 420px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.2);
+    display: none;
+    z-index: 9999;
+    overflow: hidden;
+}
+
+.chat-header {
+    background: linear-gradient(#74dfa5);
+    padding: 12px;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+}
+
+.chat-body {
+    height: 300px;
+    overflow-y: auto;
+    padding: 10px;
+    font-size: 15px;
+}
+
+.chat-input {
+    display: flex;
+    padding: 10px;
+    gap: 5px;
+}
+
+.chat-input input {
+    width: 75%;
+}
+
+.chat-bubble-user {
+    background: #e3f2fd;
+    padding: 8px 12px;
+    margin: 6px 0;
+    border-radius: 10px;
+    text-align: right;
+}
+
+.chat-bubble-bot {
+    background: #ececec;
+    padding: 8px 12px;
+    margin: 6px 0;
+    border-radius: 10px;
+    text-align: left;
+    color: #000;
+}
+</style>
+
+</head>
+<body>
+
+<!-- NAVBAR (FIXED TOP) -->
+<nav class="navbar navbar-expand-lg nav-bg fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="#">🚗 DriveMatrix</a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navMenu">
+      <ul class="navbar-nav ms-auto align-items-lg-center">
+
+        <li class="nav-item"><a class="nav-link text-white" href="#home">Home</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#cars">Cars</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#offers">Offers</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#testimonials">Testimonials</a></li>
+        <li class="nav-item"><a class="nav-link text-white" href="#contact">Contact</a></li>
+
+        <li class="nav-item ms-2">
+          <a class="btn btn-light btn-sm" href="booking-form.html">Book Now</a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link text-white" href="about.html">About Us</a>
+        </li>
+
+        <li class="nav-item ms-3" id="loginBtn">
+          <a class="btn btn-outline-light btn-sm" href="login.html">Login / Sign Up</a>
+        </li>
+
+        <li class="nav-item dropdown ms-3 d-none" id="userMenu">
+          <a class="nav-link dropdown-toggle text-white" href="#" role="button" data-bs-toggle="dropdown">
+            👤 <span id="userName">User</span>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-end">
+            <li><a class="dropdown-item" href="profile.html">Profile</a></li>
+            <li><a class="dropdown-item" href="logout.html">Logout</a></li>
+          </ul>
+        </li>
+
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="home" class="hero">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-lg-6">
+        <h1 class="display-5 fw-bold text-white">Reliable Cars. Simple Booking. Great Prices.</h1>
+        <p class="lead text-white-50">Book cars with driver or self-drive — compare multiple cars and choose what fits you best.</p>
+
+        <div class="mt-3 search-card">
+
+          <div class="mt-3 big text-white-500" style="font-size:18px;">
+	 Tip: Use compare to select up to 3 cars and view side-by-side details.
+	</div>
+
+        </div>
+
+      </div>
+
+      <div class="col-lg-6 text-center">
+        <img src="D:\\Images\\Mitsubishi-suv-crossovers-fb-2.jpg" alt="car" class="img-fluid rounded" style="max-height:320px; box-shadow: 0 10px 30px rgba(0,0,0,0.2)">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CARS LIST -->
+<section id="cars" class="py-5">
+<div class="container">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3 class="text-white">🚗 Popular Cars</h3>
+
+        <div class="d-flex gap-2">
+            <button id="sortAsc" class="btn btn-outline-light btn-sm" onclick="sortByPrice('asc')">Price ↓</button>
+            <button id="sortDesc" class="btn btn-outline-light btn-sm" onclick="sortByPrice('desc')">Price ↑</button>
+        </div>
+    </div>
+
+    <div class="row" id="carsGrid"></div>
+
+</div>
+</section>
+ <!-- ALL CARS BUTTON -->
+<div class="text-center mt-4 mb-4">
+    <a href="cardetails.html" class="btn btn-light px-4 py-2" 
+       style="font-size: 18px; font-weight: 600; border-radius: 10px;">
+        View All Cars
+    </a>
+</div>
+
+<!-- OFFERS -->
+<section id="offers" class="py-5">
+  <div class="container">
+    <h3 class="text-white mb-3">Special Offers</h3>
+    <div class="row g-3">
+      <div class="col-md-4">
+        <div class="offer-card">
+          <h5>Weekend Saver</h5>
+          <p>Get 20% off on weekend rentals. Valid Fri-Sun.</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="text-muted">Valid: 01 Dec - 31 Dec</div>
+            <div class="price-tag">20% OFF</div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="offer-card">
+          <h5>Festive Special</h5>
+          <p>Flat ₹500 off on bookings above ₹3000.</p>
+          <div class="d-flex justify-content-between align-items-center">
+            <div class="text-muted">Valid: 15 Nov - 10 Jan</div>
+            <div class="price-tag">₹500 OFF</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="py-5">
+  <div class="container">
+    <h3 class="text-white mb-3">What Customers Say</h3>
+
+    <div id="testiCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <div class="testi-card p-4">
+            <strong>Rohan P.</strong>
+            <p class="mb-0">"Great service, driver was on time and the car was clean. Will book again!"</p>
+          </div>
+        </div>
+        <div class="carousel-item">
+          <div class="testi-card p-4">
+            <strong>Neha S.</strong>
+            <p class="mb-0">"Easy booking and fair pricing. Highly recommended."</p>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#testiCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#testiCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT / CTA -->
+<section id="contact" class="py-5">
+  <div class="container">
+    <div class="card-glass p-4">
+      <div class="row">
+        <div class="col-md-8">
+          <h4>Have a question? Get in touch</h4>
+          <p class="text-#f3f6f7-50">We are available 24/7 to help you with booking & support.</p>
+        </div>
+        <div class="col-md-4 d-grid">
+          <a href="#support" class="btn btn-primary btn-lg" 
+           style="font-size:18px; padding:20px 18px; text-align:center;">
+          Contact Support
+        </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- QUICK SUPPORT SECTION (hidden anchor page) -->
+<section id="support" class="py-5">
+  <div class="container">
+    <div class="card-glass p-4">
+      <h4 style="color:white;">Contact Support</h4>
+      <form id="supportForm" class="row g-2">
+        <div class="col-md-4"><input required id="sname" class="form-control" placeholder="Your name"></div>
+        <div class="col-md-4"><input required id="semail" type="email" class="form-control" placeholder="Email"></div>
+        <div class="col-md-4"><input id="sphone" class="form-control" placeholder="Phone (optional)"></div>
+        <div class="col-12"><textarea required id="smsg" rows="3" class="form-control" placeholder="Message"></textarea></div>
+        <div class="col-12 d-grid"><button type="button" class="btn btn-primary" onclick="submitSupport()">Send Message</button></div>
+      </form>
+      <div id="supportMsg" class="mt-2"></div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="text-center mt-5">
+  <div class="container py-3">
+    <div class="row">
+      <div class="col-md-6 text-md-start">
+        <strong class="text-white">DriveMatrix</strong><br>
+        <small class="text-white-50">Reliable cars • Transparent pricing • 24/7 support</small>
+      </div>
+      <div class="col-md-6 text-md-end">
+        <small class="text-white-50">© 2025 DriveMatrix</small>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Demo JS: populate cars, search, sort -->
+<script>
+// Car Data
+const cars = [
+    { id:1, name:"Swift", brand:"Maruti", price:1200, mileage:22, seats:5, type:"Hatchback", image:"D:\\Images\\swift_2.jpeg"},
+    { id: 3,name: "Innova Crysta",brand: "Toyota",price: 3200,mileage: 14,seats: 7,type:"MUV",image:"D:\\Images\\innova-hycross.webp" },
+    { id: 8,name: "Eeco",brand: "Maruti",price: 1800,mileage: 19.71,seats: 5,type:"Van", image:"D:\\Images\\Eeco.jpg" },
+    { id: 11,name: "Bolero",brand: "Mahindra",price: 2000,mileage: 16,seats: 7,type: "SUV",image:"D:\\Images\\Bolero2.webp"},
+    { id: 25,name: "Tata Safari",brand: "Tata",price: 7000,mileage: 16.3,seats: 7,type: "SUV",image:"D:\\Images\\tata-safari.webp" },
+    { id: 14,name: "Kia Seltos",brand: "Kia",price: 5000, mileage: 17,seats: 5,type: "SUV", image:"D:\\Images\\Kia-seltos.jpg" },
+    { id: 19,name: "Thar",brand: "Mahindra",price: 8000,mileage: 14,seats: 4,type: "SUV",image:"D:\\Images\\Thar.jpg" },
+    { id: 30,name: " Force Urbania",brand: "Force Motors",price: 8000,mileage: 15,seats: 9,type: "MPV", image:"D:\\Images\\force-urbania.jpg" },
+    
+];
+
+// Render 5 Cars
+function renderCars(list){
+    const grid = document.getElementById("carsGrid");
+    grid.innerHTML = "";
+
+    const onlyFive = list.slice(0, 8);
+
+    onlyFive.forEach(c => {
+        const col = document.createElement("div");
+        col.className = "col-md-3 mb-3";
+
+        col.innerHTML = `
+        <div class="car-card position-relative">
+
+            <div class="price-tag position-absolute" style="top:10px; left:10px;">
+                ₹${c.price}/day
+            </div>
+
+            <img src="${c.image}" class="img-fluid rounded" 
+                 style="height:160px; width:100%; object-fit:cover;">
+
+            <div class="mt-3">
+                <h5>${c.name}</h5>
+                <small class="text-muted">${c.brand} • ${c.type}</small>
+                <div class="text-muted small mt-1">${c.mileage} kmpl • Seats: ${c.seats}</div>
+            </div>
+
+            <div class="mt-3">
+        	<a href="booking-form.html" class="btn btn-primary w-100">Book Now</a>
+   		</div>
+
+            </div>
+
+        </div>`;
+
+        grid.appendChild(col);
+    });
+}
+function applySearch() {
+  const qName = document.getElementById("qName").value.trim().toLowerCase();
+
+  const filtered = cars.filter(c => {
+    return (
+      c.name.toLowerCase().includes(qName) ||
+      c.brand.toLowerCase().includes(qName)
+    );
+  });
+
+  renderCars(filtered);
+}
+
+// Sorting
+function sortByPrice(order){
+    const sorted = [...cars].sort((a,b)=>
+        order === "asc" ? a.price - b.price : b.price - a.price
+    );
+
+    renderCars(sorted);
+
+    document.getElementById("sortAsc").classList.remove("sort-btn-active");
+    document.getElementById("sortDesc").classList.remove("sort-btn-active");
+
+    if(order === "asc"){
+        document.getElementById("sortAsc").classList.add("sort-btn-active");
+    } else {
+        document.getElementById("sortDesc").classList.add("sort-btn-active");
+    }
+}
+
+// Initial Load
+renderCars(cars);
+</script>
+ <script>
+
+  // Search filter
+  function applySearch(){
+    const qCity = document.getElementById('qCity').value.trim().toLowerCase();
+    const qSeats = document.getElementById('qSeats').value;
+
+    const filtered = cars.filter(c=>{
+      const matchCity = qCity ? c.name.toLowerCase().includes(qCity) || c.brand.toLowerCase().includes(qCity) : true;
+      const matchSeats = qSeats ? String(c.seats) === String(qSeats) : true;
+      return matchCity && matchSeats;
+    });
+
+    renderCars(filtered);
+  }
+
+  // Sort by price
+  function sortByPrice(order){
+    const sorted = [...cars].sort((a,b)=>{
+      return order === "asc" ? a.price - b.price : b.price - a.price;
+    });
+    renderCars(sorted);
+  }
+	
+
+  // Car details popup
+  function openDetails(id){
+    const car = cars.find(c=>c.id === id);
+    alert(`Car: ${car.name}\nPrice: ₹${car.price}/day\nSeats: ${car.seats}`);
+  }
+
+  // Redirect to booking
+  function bookNow(id){
+    window.location.href = "booking-form.html?carId=" + id;
+  }
+
+
+  // open details (placeholder)
+  function openDetails(id){
+    const car = cars.find(c=>c.id===id);
+    alert(Car: ${car.name}\nPrice: ₹${car.price}/day\nSeats: ${car.seats});
+    // you can redirect to car-details.html?carId=${id}
+  }
+
+  // book now (placeholder)
+  function bookNow(id){
+    const car = cars.find(c=>c.id===id);
+    window.location.href = '#booking';
+    // OR open booking modal with prefilled car
+  }
+
+  // support form
+  function submitSupport(){
+    const name = document.getElementById('sname').value.trim();
+    const email = document.getElementById('semail').value.trim();
+    const message = document.getElementById('smsg').value.trim();
+    if(!name || !email || !message){
+      document.getElementById('supportMsg').innerHTML = '<span class="text-danger">Please fill all required fields.</span>';
+      return;
+    }
+    document.getElementById('supportMsg').innerHTML = '<span class="text-success">Message sent — we will contact you soon.</span>';
+    // TODO: POST to backend /api/support
+    document.getElementById('supportForm').reset();
+  }
+	
+</script>
+
+<script>
+  // 🔊 Voice function for bot replies
+  function speak(text) {
+    if (!('speechSynthesis' in window)) return;
+    const speech = new SpeechSynthesisUtterance(text);
+    speech.lang = "en-IN";
+    speech.rate = 1;
+    speech.pitch = 1;
+    window.speechSynthesis.speak(speech);
+  }
+
+  // 🧠 Chatbot logic
+  function toggleChat(){
+    const w = document.getElementById("chatWindow");
+    if(w.style.display === "block"){
+      w.style.display = "none";
+    } else {
+      w.style.display = "block";
+      setTimeout(()=>{
+        document.getElementById("userMsg").focus();
+      },200);
+    }
+  }
+
+  function fillQuick(text){
+    document.getElementById("userMsg").value = text;
+    sendMessage();
+  }
+
+  function getCarReply(message){
+    const msg = message.toLowerCase();
+
+    // 1) List all cars
+    if(msg.includes("all cars") || msg.includes("list cars") || msg.includes("cars list")){
+      let reply = "Here are the cars available:\n";
+      cars.forEach(c=>{
+        reply += `• ${c.name} (${c.brand}) – ₹${c.price}/day, ${c.seats} seats\n`;
+      });
+      return reply;
+    }
+
+    // 2) Filter by type (SUV, Hatchback, etc.)
+    const types = ["suv","hatchback","muv","mpv","van"];
+    for(const t of types){
+      if(msg.includes(t)){
+        const matched = cars.filter(c=>c.type.toLowerCase().includes(t));
+        if(matched.length){
+          let reply = `Here are the ${t.toUpperCase()} cars:\n`;
+          matched.forEach(c=>{
+            reply += `• ${c.name} – ₹${c.price}/day, ${c.seats} seats, ${c.mileage} kmpl\n`;
+          });
+          return reply;
+        }
+      }
+    }
+
+    // 3) Find specific car by name
+    const found = cars.filter(c=> msg.includes(c.name.toLowerCase().trim()));
+    if(found.length === 1){
+      const c = found[0];
+      return `Details for ${c.name}:\nBrand: ${c.brand}\nType: ${c.type}\nSeats: ${c.seats}\nMileage: ${c.mileage} kmpl\nPrice: ₹${c.price}/day`;
+    } else if(found.length > 1){
+      let reply = "I found multiple cars in your message:\n";
+      found.forEach(c=>{
+        reply += `• ${c.name} – ₹${c.price}/day, ${c.seats} seats\n`;
+      });
+      return reply;
+    }
+
+    // 4) If user asks 'price', try to guess car name by partial match
+    if(msg.includes("price") || msg.includes("rent") || msg.includes("rate")){
+      let possible = cars.filter(c=> msg.includes(c.name.toLowerCase().split(" ")[0]));
+      if(possible.length === 1){
+        const c = possible[0];
+        return `${c.name} price is ₹${c.price}/day with ${c.seats} seats and ${c.mileage} kmpl mileage.`;
+      }
+    }
+
+    // 5) Default fallback
+    return "You can ask me things like:\n• Swift price\n• Details of Innova Crysta\n• Show all cars\n• SUV cars\nTry asking again 🙂";
+  }
+
+  function sendMessage(){
+    const input = document.getElementById("userMsg");
+    const msg = input.value.trim();
+    if(!msg) return;
+
+    const chatBody = document.getElementById("chatBody");
+
+    // User bubble
+    const userHtml = `
+      <div class="chat-bubble-user">
+        ${msg}
+      </div>
+    `;
+    chatBody.insertAdjacentHTML("beforeend", userHtml);
+
+    input.value = "";
+
+    // Bot thinking + reply
+    setTimeout(()=>{
+      const replyText = getCarReply(msg);
+
+      const botHtml = `
+        <div class="chat-bubble-bot">
+          ${replyText.replace(/\n/g,"<br>")}
+        </div>
+      `;
+      chatBody.insertAdjacentHTML("beforeend", botHtml);
+
+      chatBody.scrollTop = chatBody.scrollHeight;
+
+      // 🔔 Voice notification for bot reply
+      speak(replyText);
+
+    }, 400);
+  }
+
+  // Press Enter to send
+  document.addEventListener("keydown", function(e){
+    if(e.key === "Enter"){
+      const active = document.activeElement;
+      if(active && active.id === "userMsg"){
+        e.preventDefault();
+        sendMessage();
+      }
+    }
+  });
+</script>
+
+<!-- CHATBOT BUTTON -->
+<div id="chatbotBtn" class="chatbot-btn">
+    <button onclick="toggleChat()">💬</button>
+</div>
+
+<!-- CHATBOT WINDOW -->
+<div id="chatWindow" class="chat-window">
+    <div class="chat-header">
+         🤖 DriveMatrix Bot
+        <span style="cursor:pointer;" onclick="toggleChat()">✖</span>
+    </div>
+
+    <div id="chatBody" class="chat-body">
+        <div class="chat-bubble-bot">Hello! How can I help you?</div>
+    </div>
+
+    <div class="chat-input">
+        <input id="userMsg" type="text" class="form-control" placeholder="Type message...">
+        <button class="btn btn-primary btn-sm" onclick="sendMessage()">Send</button>
+    </div>
+</div>
+
+</body>
+</html>
